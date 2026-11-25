@@ -13,7 +13,7 @@ Photos are in `images/`. Fonts load from Google Fonts (Archivo, Inter). There's 
 ## Before launch
 - Replace the `[EMAIL ADDRESS]` and `[BUSINESS HOURS]` placeholders.
 - Quote form: posts to Formspree (`https://formspree.io/f/mwloarkq`). Submissions go to the email address set on that Formspree form. Send one test submission to confirm the form before launch.
-  - On a free Formspree plan, file attachments are rejected. Either upgrade the plan or remove the "attach your material list" field.
+  - There is no file upload, so the form works on Formspree's free plan. Buyers can paste a material list into the notes field. Add an upload field back if you move to a paid plan.
   - In Formspree, add timberresources.net to the form's allowed domains.
 - Replace the monogram portraits with real headshots of Tim, Sam and Chris.
 - Confirm the owner name (Tim vs. Ken Proctor) and confirm that the payment terms are approved for publication.
