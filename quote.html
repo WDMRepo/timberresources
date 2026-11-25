@@ -60,17 +60,19 @@ h1,h2,h3{text-wrap:balance}
 </div>
 
 <div id="quote-wrap">
-<form id="quote-form" aria-label="Quote request" style="background: #FFFFFF; border: 1px solid #E2DED4; border-radius: 12px; padding: 36px; display: flex; flex-direction: column; gap: 32px">
+<form id="quote-form" action="https://formspree.io/f/mwloarkq" method="POST" aria-label="Quote request" style="background: #FFFFFF; border: 1px solid #E2DED4; border-radius: 12px; padding: 36px; display: flex; flex-direction: column; gap: 32px">
+<input type="hidden" name="_subject" value="New delivered quote request — timberresources.net">
+<div aria-hidden="true" style="position: absolute; left: -9999px"><label>Leave this empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
 
 <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px">
 <legend style="font-family: Archivo, sans-serif; font-size: 20px; font-weight: 700; padding: 0; margin-bottom: 18px">1. Your company &amp; delivery</legend>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 18px">
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Company name *<input type="text" required style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Contact name *<input type="text" required style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Email *<input type="email" required style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Phone *<input type="tel" required style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Delivery city, state &amp; ZIP *<input type="text" required placeholder="e.g. Valdosta, GA 31601" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Requested delivery timing<input type="text" placeholder="Date, or “flexible”" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Company name *<input name="company" type="text" required style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Contact name *<input name="name" type="text" required style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Email *<input name="email" type="email" required style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Phone *<input name="phone" type="tel" required style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Delivery city, state &amp; ZIP *<input name="delivery_location" type="text" required placeholder="e.g. Valdosta, GA 31601" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Requested delivery timing<input name="delivery_timing" type="text" placeholder="Date, or “flexible”" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
 </div>
 </fieldset>
 
@@ -78,7 +80,7 @@ h1,h2,h3{text-wrap:balance}
 <legend style="font-family: Archivo, sans-serif; font-size: 20px; font-weight: 700; padding: 0; margin-bottom: 18px">2. What you need</legend>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 18px">
 <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">I’m buying for
-<select style="min-height: 46px; padding: 0 12px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7">
+<select name="buying_for" style="min-height: 46px; padding: 0 12px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7">
 <option>Pallet / crate / packaging</option>
 <option>Truss manufacturing</option>
 <option>Dunnage</option>
@@ -86,11 +88,11 @@ h1,h2,h3{text-wrap:balance}
 <option>Landscape timbers / remanufacturing</option>
 <option>Other</option>
 </select></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Dimensions &amp; lengths<input type="text" placeholder="e.g. 1x6 x 40″, 2x4 x 8′" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Grade<input type="text" placeholder="e.g. No. 3, MSR 2400" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Quantity<input type="text" placeholder="e.g. 2 truckloads / month" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Dimensions &amp; lengths<input name="dimensions_lengths" type="text" placeholder="e.g. 1x6 x 40″, 2x4 x 8′" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Grade<input name="grade" type="text" placeholder="e.g. No. 3, MSR 2400" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Quantity<input name="quantity" type="text" placeholder="e.g. 2 truckloads / month" style="min-height: 46px; padding: 0 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7"></label>
 <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Treatment
-<select style="min-height: 46px; padding: 0 12px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7">
+<select name="treatment" style="min-height: 46px; padding: 0 12px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7">
 <option>None / green</option>
 <option>Kiln dried</option>
 <option>Pressure treated</option>
@@ -98,20 +100,19 @@ h1,h2,h3{text-wrap:balance}
 <option>Not sure</option>
 </select></label>
 <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Alternatives acceptable?
-<select style="min-height: 46px; padding: 0 12px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7">
+<select name="alternatives" style="min-height: 46px; padding: 0 12px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7">
 <option>Discuss with me first</option>
 <option>Yes</option>
 <option>No</option>
 </select></label>
 </div>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Notes or special handling<textarea rows="4" style="padding: 12px 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7; resize: vertical"></textarea></label>
-<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600; border: 1.5px dashed #C9C2B3; border-radius: 8px; padding: 20px; background: #FBFAF7">Or attach your material list (PDF, Excel, photo)
-<input type="file" style="font-size: 14px; font-weight: 400; min-height: 44px"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Notes or special handling<textarea name="notes" rows="4" style="padding: 12px 14px; border: 1px solid #C9C2B3; border-radius: 6px; background: #FBFAF7; resize: vertical"></textarea></label>
 </fieldset>
 
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
-<button type="submit" class="btn" style="min-height: 52px; padding: 0 28px; border-radius: 6px; border: 0; background: #E0A24E; color: #1B2420; font-weight: 700; font-size: 16px; cursor: pointer">Submit quote request</button>
-<span style="font-size: 14px; color: #5E6761">Fill in the specs or attach a list — you don’t need both.</span>
+<p id="form-error" role="alert" hidden style="margin: 0; padding: 12px 14px; border-radius: 6px; background: #FDECEC; color: #8A1C1C; font-size: 15px"></p>
+<button type="submit" id="submit-btn" class="btn" style="min-height: 52px; padding: 0 28px; border-radius: 6px; border: 0; background: #E0A24E; color: #1B2420; font-weight: 700; font-size: 16px; cursor: pointer">Submit quote request</button>
+<span style="font-size: 14px; color: #5E6761">Have a long material list? Paste it into the notes or email it to us.</span>
 </div>
 </form>
 </div>
@@ -148,10 +149,26 @@ h1,h2,h3{text-wrap:balance}
 
 </div>
 <script>
-// Draft behaviour: swap the form for the confirmation. Wire the form to the real inbox (e.g. a form endpoint) before launch.
-(function(){var f=document.getElementById('quote-form'),w=document.getElementById('quote-wrap'),t=document.getElementById('thanks');
-f.addEventListener('submit',function(e){e.preventDefault();if(!f.reportValidity())return;w.hidden=true;t.hidden=false;t.focus&&t.setAttribute('tabindex','-1');t.focus();});
-document.getElementById('again').addEventListener('click',function(){f.reset();t.hidden=true;w.hidden=false;});})();
+// Quote form → Formspree (AJAX, with a plain POST fallback when JS is off).
+(function(){
+  var f=document.getElementById('quote-form'),w=document.getElementById('quote-wrap'),t=document.getElementById('thanks'),
+      err=document.getElementById('form-error'),btn=document.getElementById('submit-btn'),label=btn.textContent;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!f.reportValidity())return;
+    err.hidden=true;btn.disabled=true;btn.textContent='Sending…';
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,d:d};});})
+      .then(function(res){
+        if(res.ok){f.reset();w.hidden=true;t.hidden=false;t.setAttribute('tabindex','-1');t.focus();window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-120});}
+        else{var m=(res.d&&res.d.errors&&res.d.errors.map(function(x){return x.message;}).join(' '))||'Something went wrong sending your request.';
+          err.textContent=m+' Please try again or call (901) 395-4736.';err.hidden=false;}
+      })
+      .catch(function(){err.textContent='We couldn’t reach the server. Please try again or call (901) 395-4736.';err.hidden=false;})
+      .then(function(){btn.disabled=false;btn.textContent=label;});
+  });
+  document.getElementById('again').addEventListener('click',function(){t.hidden=true;w.hidden=false;});
+})();
 </script>
 </body>
 </html>

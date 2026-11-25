@@ -1,0 +1,7 @@
+# Keep Cloudflare's own hostnames out of search results; only the custom domain gets indexed.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+# Matches the Worker URL (timberresources.mw-d73.workers.dev) and its version preview URLs
+https://:version.:subdomain.workers.dev/*
+  X-Robots-Tag: noindex
