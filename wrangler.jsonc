@@ -1,0 +1,16 @@
+// Cloudflare Worker config: serve the built Astro site (dist/) as static assets.
+// Cloudflare runs `npm run build`, then `npx wrangler deploy`, which reads this file.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Must match the Worker's name in the Cloudflare dashboard (timberresources.mw-d73.workers.dev).
+  "name": "timberresources",
+  "compatibility_date": "2026-11-25",
+  "assets": {
+    // Folder that `npm run build` produces. public/_headers is copied into it.
+    "directory": "./dist",
+    // /products and /products/ both resolve to dist/products/index.html.
+    "html_handling": "auto-trailing-slash",
+    // Unknown URLs get a 404 (uses dist/404.html if one is ever added).
+    "not_found_handling": "404-page"
+  }
+}

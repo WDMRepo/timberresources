@@ -227,3 +227,4 @@ Team headshots are still `[PHOTO]` placeholders.
 | 2026-11-25 | Added Google Tag Manager (GTM-WN8CQMQS) to every page; switched to Google's standard head + noscript snippet. |
 | 2026-11-25 | Added LocalBusiness structured data (JSON-LD) to the Home page. |
 | 2026-11-25 | Removed the quote-form file upload (Formspree free plan); the notes field now invites a pasted material list. Moved to GitHub (WDMRepo/timberresources), replacing the Draft 1 HTML on main. |
+| 2026-11-25 | Added `wrangler.jsonc` so the Cloudflare Worker publishes the built `dist/` folder. |

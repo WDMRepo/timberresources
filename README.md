@@ -25,11 +25,13 @@ npm run preview   # serve the built dist/ locally
 
 ## Deploying (Cloudflare)
 
-The site needs a build step now; it's no longer plain HTML files. In the Cloudflare project settings:
+The site deploys as a Cloudflare **Worker** (`timberresources`) that serves the built files as static assets. It needs a build step now; it's no longer plain HTML files. In the Worker's **Settings → Build → Build configuration**:
 
 - **Build command:** `npm run build`
-- **Build output directory:** `dist`
-- **Environment variable:** `NODE_VERSION` = `22` (if the default Node is older)
+- **Deploy command:** `npx wrangler deploy`
+- **Build variable:** `NODE_VERSION` = `22` (only if the default Node is older)
+
+`wrangler.jsonc` tells the deploy step to publish the `dist/` folder. Its `name` must match the Worker's name in the dashboard.
 
 `public/_headers` is copied into `dist/` and keeps the `pages.dev` / `workers.dev` addresses out of search results.
 
