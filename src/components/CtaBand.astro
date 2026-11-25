@@ -1,69 +1,75 @@
 ---
+/** Rounded forest-green call-to-action panel. Buttons go in the default slot. */
+import GrainRings from './GrainRings.astro';
 interface Props {
   title: string;
   text: string;
-  /** Larger padding/heading (home page). */
-  size?: 'md' | 'lg';
 }
-
-const { title, text, size = 'md' } = Astro.props;
+const { title, text } = Astro.props;
 ---
 
-<section class:list={['cta', `cta--${size}`]}>
-  <div class="container cta__inner">
-    <div class="cta__copy">
-      <h2>{title}</h2>
-      <p>{text}</p>
-    </div>
-    <div class="cta__actions">
-      <slot />
+<section class="cta-wrap">
+  <div class="container">
+    <div class="cta" data-reveal>
+      <GrainRings class="cta__grain" rings={12} seed={4} />
+      <div class="cta__copy">
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="cta__actions">
+        <slot />
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .cta {
-    background: var(--c-brand);
-    color: #fff;
+  .cta-wrap {
+    padding-bottom: clamp(64px, 9vw, 96px);
   }
-  .cta__inner {
-    padding-top: 40px;
-    padding-bottom: 40px;
+  .cta {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--c-forest);
+    color: var(--c-on-forest);
+    border-radius: var(--r-panel);
+    padding: clamp(36px, 5vw, 64px) clamp(28px, 4vw, 56px);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 28px;
   }
-  .cta--lg .cta__inner {
-    padding-top: 48px;
-    padding-bottom: 48px;
-    gap: 24px;
+  /* End-grain rings cropped off the right edge, behind the buttons */
+  .cta :global(.cta__grain) {
+    width: 520px;
+    right: -230px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--c-forest-line);
+    z-index: -1;
   }
   .cta__copy {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    max-width: 680px;
+    gap: 12px;
+    max-width: 36em;
   }
   .cta h2 {
-    font-size: 24px;
-    line-height: 1.2;
-  }
-  .cta--lg h2 {
-    font-size: 30px;
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
   .cta p {
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--c-primary-on);
-  }
-  .cta--lg p {
-    font-size: 16px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--c-on-forest-2);
   }
   .cta__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
   }
 </style>

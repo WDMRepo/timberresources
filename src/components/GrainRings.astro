@@ -1,0 +1,65 @@
+---
+/**
+ * End-grain motif: the growth rings you see on the sawn end of a log.
+ * Concentric, slightly irregular rings drawn as hairlines in currentColor.
+ * Decorative only; position it with a class from the parent.
+ *
+ * The ring shapes are computed here at build time, so the browser just gets
+ * a small static SVG (no script, no image request).
+ */
+interface Props {
+  /** Number of rings. */
+  rings?: number;
+  /** Changes the wobble pattern so repeated uses don't look identical. */
+  seed?: number;
+  class?: string;
+}
+
+const { rings = 14, seed = 1, class: className } = Astro.props;
+
+const SIZE = 400;
+const C = SIZE / 2;
+
+// Deterministic pseudo-random wobble per ring: a few low-frequency sine terms,
+// like real growth rings that are fatter on the sunny side.
+function ringPath(i: number): string {
+  const base = 10 + i * (C / rings) * (0.92 + 0.08 * Math.sin(i * 1.7 + seed));
+  const points = 72;
+  const a1 = 0.035 + 0.02 * Math.sin(seed * 3.1 + i * 0.6);
+  const a2 = 0.018 + 0.012 * Math.cos(seed * 1.3 + i * 0.9);
+  const p1 = seed * 0.7 + i * 0.15;
+  const p2 = seed * 2.3 - i * 0.1;
+  let d = '';
+  for (let k = 0; k <= points; k++) {
+    const t = (k / points) * Math.PI * 2;
+    const r = base * (1 + a1 * Math.sin(2 * t + p1) + a2 * Math.sin(3 * t + p2) + 0.06 * Math.cos(t + seed)); // off-centre pith
+    const x = C + r * Math.cos(t);
+    const y = C + r * 0.94 * Math.sin(t);
+    d += `${k === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
+  }
+  return d + 'Z';
+}
+
+const paths = Array.from({ length: rings }, (_, i) => ringPath(i + 1));
+---
+
+<svg
+  class:list={['grain', className]}
+  viewBox={`0 0 ${SIZE} ${SIZE}`}
+  aria-hidden="true"
+  focusable="false"
+  fill="none"
+  stroke="currentColor"
+>
+  {paths.map((d, i) => <path d={d} stroke-width={i % 4 === 3 ? 1.4 : 0.8} vector-effect="non-scaling-stroke" />)}
+  <!-- one radial check (drying crack) for character -->
+  <path d={`M${C + 6} ${C - 4}L${C + 118} ${C - 61}`} stroke-width="0.8" vector-effect="non-scaling-stroke" />
+</svg>
+
+<style>
+  .grain {
+    position: absolute;
+    pointer-events: none;
+    display: block;
+  }
+</style>

@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import TopBar from '../components/TopBar.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { getImage } from 'astro:assets';
@@ -50,6 +49,12 @@ const structuredData = jsonLd ? JSON.stringify({ image: ogUrl.href, ...jsonLd })
       })(window,document,'script','dataLayer','GTM-WN8CQMQS');
     </script>
     <!-- End Google Tag Manager -->
+    <!-- Turn on scroll reveals only when they can run and the visitor hasn't asked for reduced motion. -->
+    <script is:inline>
+      if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('reveal-on');
+      }
+    </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -67,7 +72,7 @@ const structuredData = jsonLd ? JSON.stringify({ image: ogUrl.href, ...jsonLd })
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Roboto:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -75,11 +80,32 @@ const structuredData = jsonLd ? JSON.stringify({ image: ogUrl.href, ...jsonLd })
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WN8CQMQS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <TopBar />
+    <a href="#main" class="skip">Skip to content</a>
     <SiteHeader current={current} showCta={showHeaderCta} />
-    <main>
+    <main id="main">
       <slot />
     </main>
     <SiteFooter variant={footer} />
+    <!-- Scroll reveals: reveal each [data-reveal] once, shortly before it enters view. Inline so it can't be held up by a bundle. -->
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        if (!root.classList.contains('reveal-on')) return;
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-revealed');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+        );
+        document.querySelectorAll('[data-reveal]').forEach(function (el) {
+          io.observe(el);
+        });
+      })();
+    </script>
   </body>
 </html>

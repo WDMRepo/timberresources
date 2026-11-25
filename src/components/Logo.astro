@@ -1,0 +1,12 @@
+---
+/** Timber Resources mark: stacked boards on a forest-green tile. Decorative. */
+interface Props {
+  size?: number;
+}
+const { size = 32 } = Astro.props;
+---
+
+<svg width={size} height={size} viewBox="0 0 34 34" aria-hidden="true">
+  <rect width="34" height="34" rx="6" fill="#22382D"></rect>
+  <path d="M7 24h20M9 19h16M11 14h12M13 9h8" stroke="#E0A24E" stroke-width="2.4" stroke-linecap="round"></path>
+</svg>

@@ -1,52 +1,71 @@
 /*
- * LedgerCraft design tokens + shared primitives for the Timber Resources site.
- * Flat surfaces, crisp borders, small radii, mono numerals.
- * Colors use the Draft 1 palette: forest green, amber, rust and warm cream.
+ * Timber Resources: Draft 1 ("original look") design tokens and shared styles.
+ * Forest green and amber on warm cream; Archivo headings, Inter body text.
+ * See DESIGN.md for how each token is used.
  */
 :root {
-  /* Color: text accents (links, overlines, chip text) */
-  --c-primary: #7a4510;
-  --c-primary-hover: #5a320b;
-  --c-primary-tint: rgba(224, 162, 78, 0.16);
-  --c-primary-tint-border: rgba(224, 162, 78, 0.45);
-  /* Color: amber for primary buttons and focus rings */
-  --c-accent: #e0a24e;
-  --c-accent-hover: #ebb36a;
-  --c-on-accent: #1b2420;
-  /* Color: forest green for the call-to-action band */
-  --c-brand: #22382d;
-  --c-brand-line: #8fa597;
-  --c-primary-on: #b9c8be;
+  /* Brand */
+  --c-forest: #22382d;
+  --c-forest-2: #2e4a3b;
+  --c-forest-3: #3a5a49;
+  --c-forest-line: #36513f;
+  --c-amber: #e0a24e;
+  --c-amber-hover: #ebb36a;
+  --c-rust: #7a4510;
+  --c-rust-hover: #5a320b;
+
+  /* Text */
   --c-ink: #1b2420;
-  --c-ink-2: #4a544e;
-  --c-steel: #646d67;
-  --c-muted: #9fb3a6;
-  --c-neutral: #b9ae97;
-  --c-border: #e2ded4;
-  --c-border-strong: #cfc7b6;
+  --c-ink-2: #3a443e;
+  --c-body: #4a544e;
+  --c-muted: #5e6761;
+
+  /* Text on forest */
+  --c-on-forest: #f6f4ef;
+  --c-on-forest-2: #d5ddd7;
+  --c-on-forest-3: #b9c8be;
+  --c-on-forest-4: #9fb3a6;
+  --c-forest-outline: #8fa597;
+
+  /* Surfaces and lines */
   --c-bg: #f6f4ef;
   --c-surface: #ffffff;
-  --c-surface-alt: #faf8f3;
-  --c-surface-sunk: #ede9e0;
+  --c-sand: #ede9e0;
+  --c-field: #fbfaf7;
+  --c-line: #e2ded4;
+  --c-line-soft: #ece8df;
+  --c-line-strong: #cfc7b6;
+  --c-field-line: #c9c2b3;
+  --c-hover-line: #b9ae97;
   --c-dark: #1b2420;
   --c-dark-line: #2f3a34;
-  --c-dark-text: #b9c8be;
 
   /* Type */
-  --f-head: 'Roboto Slab', Georgia, serif;
-  --f-body: Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --f-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+  --f-head: Archivo, Inter, system-ui, sans-serif;
+  --f-body: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Radius */
-  --r-sm: 2px;
-  --r-md: 4px;
+  --r-btn: 6px;
+  --r-img: 8px;
+  --r-card: 10px;
+  --r-panel: 12px;
 
-  /* Elevation */
-  --shadow-md: 0 2px 6px rgba(15, 23, 42, 0.06);
+  /* Depth */
+  --shadow-photo: 0 24px 48px rgba(0, 0, 0, 0.28);
+  --shadow-hover: 0 6px 18px rgba(27, 36, 32, 0.07);
+
+  /* Motion: one easing family, three durations. Everything decelerates
+     (fast start, soft landing); nothing overshoots or bounces. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 160ms; /* colour, press */
+  --t-med: 320ms; /* lifts, underlines, arrows */
+  --t-slow: 700ms; /* image drift, scroll reveals */
 
   /* Layout */
   --container: 1200px;
   --gutter: 24px;
+  --section-y: clamp(64px, 9vw, 104px);
 }
 
 *,
@@ -57,6 +76,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 88px; /* keeps #anchors clear of the sticky header */
 }
 
 body {
@@ -68,22 +88,22 @@ body {
 }
 
 a {
-  color: var(--c-primary);
+  color: var(--c-rust);
 }
 a:hover {
-  color: var(--c-primary-hover);
+  color: var(--c-rust-hover);
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--f-head);
-  font-weight: 700;
   margin: 0;
+  text-wrap: balance;
 }
-
 p {
   margin: 0;
+  text-wrap: pretty;
 }
 
 input,
@@ -93,9 +113,19 @@ button {
   font: inherit;
 }
 
-:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 2px;
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--c-amber);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Phones: slightly tighter side margins so the header and cards breathe. */
+@media (max-width: 559px) {
+  :root {
+    --gutter: 18px;
+  }
 }
 
 /* ---------- Layout ---------- */
@@ -107,29 +137,23 @@ button {
   padding-right: var(--gutter);
 }
 
-.mono {
-  font-family: var(--f-mono);
+.section {
+  padding-top: var(--section-y);
+  padding-bottom: var(--section-y);
 }
 
-.overline {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--c-steel);
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
 }
-.overline--primary {
-  color: var(--c-primary);
-}
-
-.lead {
-  font-size: 17px;
-  line-height: 1.55;
-  color: var(--c-ink-2);
-}
-
-.muted {
-  color: var(--c-ink-2);
+.skip:focus {
+  left: 16px;
+  top: 12px;
+  z-index: 10;
+  background: var(--c-dark);
+  color: var(--c-on-forest);
+  padding: 10px 14px;
 }
 
 .visually-hidden {
@@ -141,208 +165,278 @@ button {
   white-space: nowrap;
 }
 
+/* ---------- Type helpers ---------- */
+
+/* Small uppercase label above headings */
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-rust);
+}
+.eyebrow--amber {
+  color: var(--c-amber);
+}
+
+.h2 {
+  font-size: clamp(30px, 3.6vw, 42px);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--c-body);
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 40em;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- Buttons ---------- */
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 0 22px;
-  border-radius: var(--r-sm);
-  border: 1px solid transparent;
-  font-size: 15px;
-  font-weight: 500;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: var(--r-btn);
+  border: 1.5px solid transparent;
+  font-size: 16px;
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out),
+    color var(--t-fast) var(--ease-out),
+    box-shadow var(--t-med) var(--ease-out),
+    transform var(--t-med) var(--ease-out);
+}
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+}
+/* Press: settle back down quickly, a hair smaller */
+.btn:active {
+  transform: translateY(0) scale(0.985);
+  transition-duration: 80ms;
 }
 .btn--sm {
-  font-size: 14px;
+  min-height: 44px;
   padding: 0 18px;
+  font-size: 15px;
+}
+.btn--lg {
+  min-height: 52px;
+  padding: 0 28px;
 }
 
-.btn--primary {
-  background: var(--c-accent);
-  color: var(--c-on-accent);
+/* Amber: the main action everywhere */
+.btn--amber {
+  background: var(--c-amber);
+  color: var(--c-ink);
 }
-.btn--primary:hover {
-  background: var(--c-accent-hover);
-  color: var(--c-on-accent);
-}
-
-.btn--secondary {
-  background: var(--c-surface-sunk);
-  color: var(--c-ink-2);
-  border-color: var(--c-border-strong);
-}
-.btn--secondary:hover {
-  background: var(--c-border);
-  color: var(--c-ink-2);
+.btn--amber:hover {
+  background: var(--c-amber-hover);
+  color: var(--c-ink);
+  box-shadow: 0 8px 18px -10px rgba(122, 69, 16, 0.55);
 }
 
-.btn--inverse {
-  background: var(--c-accent);
-  color: var(--c-on-accent);
+/* Outline on forest backgrounds */
+.btn--line {
+  border-color: var(--c-forest-outline);
+  color: var(--c-on-forest);
 }
-.btn--inverse:hover {
-  background: var(--c-accent-hover);
-  color: var(--c-on-accent);
-}
-
-.btn--outline-inverse {
-  border-color: var(--c-brand-line);
-  color: #fff;
-}
-.btn--outline-inverse:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+.btn--line:hover {
+  background: rgba(246, 244, 239, 0.08);
+  color: var(--c-on-forest);
 }
 
-/* ---------- Chips ---------- */
-
-.chip {
-  display: inline-block;
-  align-self: flex-start;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  padding: 2px 8px;
-  border-radius: var(--r-sm);
-  border: 1px solid var(--c-border);
-  background: var(--c-surface-sunk);
-  color: var(--c-ink-2);
+/* Solid forest on light backgrounds */
+.btn--forest {
+  background: var(--c-forest);
+  color: var(--c-on-forest);
 }
-.chip--status {
-  color: var(--c-primary);
-  background: var(--c-primary-tint);
-  border-color: var(--c-primary-tint-border);
+.btn--forest:hover {
+  background: var(--c-forest-2);
+  color: var(--c-on-forest);
 }
 
-/* ---------- Cards / panels ---------- */
+/* Outline forest on light backgrounds */
+.btn--ghost {
+  border-color: var(--c-forest);
+  color: var(--c-forest);
+  background: transparent;
+}
+.btn--ghost:hover {
+  background: rgba(34, 56, 45, 0.06);
+  color: var(--c-forest);
+}
+
+/* ---------- Cards ---------- */
 
 .card {
   background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-md);
-}
-.card--elevated {
-  border-color: var(--c-border-strong);
-  box-shadow: var(--shadow-md);
-}
-.card__head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--c-border);
-  font-family: var(--f-head);
-  font-weight: 700;
-  font-size: 17px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-panel);
 }
 
-/* Cells laid out in a bordered grid (stats, steps, terms) */
-.cell-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--cell-min, 240px), 1fr));
+/* Linked cards that lift slightly on hover */
+.seg {
+  text-decoration: none;
+  color: var(--c-ink);
+  transition:
+    border-color var(--t-med) var(--ease-out),
+    box-shadow var(--t-med) var(--ease-out),
+    transform var(--t-med) var(--ease-out);
 }
-.cell-grid > * {
-  border-right: 1px solid var(--c-border);
+.seg:hover {
+  color: var(--c-ink);
 }
-.cell-grid > :last-child {
-  border-right: 0;
+.seg .arrow {
+  display: inline-block;
+  transition: transform var(--t-med) var(--ease-out);
 }
-
-/* Key/value definition rows */
-.kv {
-  margin: 0;
-  font-size: 14px;
-}
-.kv > div {
-  display: flex;
-  gap: 16px;
-  padding: 10px 20px;
-  border-bottom: 1px solid var(--c-border);
-}
-.kv > div:nth-child(even) {
-  background: var(--c-surface-alt);
-}
-.kv > div:last-child {
-  border-bottom: 0;
-}
-.kv dt {
-  color: var(--c-steel);
-  font-weight: 500;
-}
-.kv dd {
-  margin: 0;
-}
-
-/* ---------- Section ---------- */
-
-.section {
-  padding-top: 64px;
-  padding-bottom: 64px;
-}
-.section--surface {
-  background: var(--c-surface);
-  border-top: 1px solid var(--c-border);
-  border-bottom: 1px solid var(--c-border);
-}
-
-.section-head {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 720px;
-}
-.section-head h2 {
-  font-size: 30px;
-  line-height: 1.2;
-}
-
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--stack-gap, 24px);
-}
-
-/* Page intro band (Products, Quote) */
-.page-intro {
-  background: var(--c-surface);
-  border-bottom: 1px solid var(--c-border);
-}
-.page-intro .container {
-  padding-top: 48px;
-  padding-bottom: 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.page-intro h1 {
-  font-size: 40px;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  max-width: 820px;
-}
-.page-intro .lead {
-  max-width: 700px;
-}
-
-@media (max-width: 640px) {
-  .page-intro h1 {
-    font-size: 32px;
+@media (hover: hover) {
+  .seg:hover {
+    border-color: var(--c-hover-line);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
   }
-  .section-head h2 {
-    font-size: 26px;
+  .seg:hover .arrow {
+    transform: translateX(4px);
   }
-  .cell-grid > * {
-    border-right: 0;
-    border-bottom: 1px solid var(--c-border);
+  /* Photos inside linked cards drift in slightly; the card clips them. */
+  .seg .photo {
+    transition: transform var(--t-slow) var(--ease-out);
   }
-  .cell-grid > :last-child {
-    border-bottom: 0;
+  .seg:hover .photo {
+    transform: scale(1.035);
+  }
+}
+
+/* ---------- Links ---------- */
+
+/* Inline text links: underline sits a little lower and tightens on hover */
+main p a,
+main dd a {
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  transition:
+    color var(--t-fast) var(--ease-out),
+    text-underline-offset var(--t-med) var(--ease-out);
+}
+main p a:hover,
+main dd a:hover {
+  text-underline-offset: 0.12em;
+}
+
+/* ---------- Scroll reveal ---------- */
+
+/*
+ * Elements marked [data-reveal] rise 14px and fade in once as they enter the
+ * viewport. The hidden state only applies when <html> has .reveal-on, which a
+ * tiny inline script adds when JS runs AND the visitor hasn't asked for reduced
+ * motion, so content is never stuck invisible. Stagger with --reveal-i (0–3).
+ */
+.reveal-on [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity var(--t-slow) var(--ease-out),
+    transform var(--t-slow) var(--ease-out);
+  transition-delay: calc(var(--reveal-i, 0) * 70ms);
+}
+.reveal-on [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+/* Phones: cards stack and arrive one at a time anyway, so skip the stagger. */
+@media (max-width: 719px) {
+  .reveal-on [data-reveal] {
+    transition-delay: 0s;
+  }
+}
+
+/* ---------- Disclosure (FAQ) ---------- */
+
+/* Smooth open/close where supported (Chromium); elsewhere it simply snaps. */
+:root {
+  interpolate-size: allow-keywords;
+}
+details::details-content {
+  block-size: 0;
+  overflow-y: clip;
+  transition:
+    block-size var(--t-med) var(--ease-out),
+    content-visibility var(--t-med) allow-discrete;
+}
+details[open]::details-content {
+  block-size: auto;
+}
+
+/* ---------- Motif ---------- */
+
+/*
+ * Tally ruler: the tick marks of a lumber tally stick / tape, used as a rule
+ * in place of a plain border. Short tick every 8px, tall tick every foot-ish
+ * (64px). Colour comes from `color` on the element.
+ */
+.ruler {
+  display: block;
+  height: 10px;
+  color: var(--c-line-strong);
+  background-image:
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(currentColor, currentColor);
+  background-size:
+    64px 10px,
+    8px 5px,
+    100% 1px;
+  background-repeat: repeat-x, repeat-x, no-repeat;
+  background-position:
+    0 0,
+    0 0,
+    0 0;
+}
+
+/*
+ * Reduced motion: no movement at all. Colour changes still happen, instantly.
+ * (Only hover/press transforms are cancelled, not layout transforms.)
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .btn:hover,
+  .btn:active,
+  .seg:hover,
+  .seg:hover .arrow,
+  .seg:hover .photo {
+    transform: none !important;
   }
 }

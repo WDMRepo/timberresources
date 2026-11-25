@@ -2,7 +2,7 @@
 import { site } from '../data/site';
 
 interface Props {
-  /** "full" = four-column footer (home); "compact" = one line (inner pages). */
+  /** "full" = four columns (Home); "compact" = one line (inner pages). */
   variant?: 'full' | 'compact';
 }
 
@@ -13,38 +13,38 @@ const year = new Date().getFullYear();
 <footer class:list={['footer', `footer--${variant}`]}>
   {
     variant === 'full' ? (
-      <>
-        <div class="container footer__grid">
+      <div class="container">
+        <div class="footer__cols">
           <div class="footer__col">
             <span class="footer__brand">{site.name}</span>
-            <span>{site.description}</span>
+            <span>Southern Yellow Pine lumber broker for manufacturers and commercial buyers.</span>
           </div>
-          <div class="footer__col">
-            <span class="footer__label">Contact</span>
-            <a href={site.phoneHref} class="mono">{site.phone}</a>
-            <span class="mono">Fax {site.fax}</span>
-            <span>{site.email}</span>
+          <div class="footer__col footer__col--tight">
+            <span class="footer__head">Contact</span>
+            <a href={site.phoneHref}>Phone {site.phone}</a>
+            <span>Fax {site.fax}</span>
+            <a href={site.emailHref}>{site.email}</a>
           </div>
-          <div class="footer__col">
-            <span class="footer__label">Pages</span>
-            <a href="/products/">Products</a>
+          <div class="footer__col footer__col--tight">
+            <span class="footer__head">Explore</span>
+            <a href="/products/">Products &amp; customers</a>
             <a href="/#how">How we work</a>
             <a href="/quote/">Request a quote</a>
           </div>
-          <div class="footer__col">
-            <span class="footer__label">Locations</span>
+          <div class="footer__col footer__col--tight">
+            <span class="footer__head">Locations</span>
             {site.locations.map((l) => <span>{l}</span>)}
           </div>
         </div>
-        <div class="container">
-          <div class="footer__legal">© {year} {site.name}</div>
+        <div class="footer__legal">
+          © {year} {site.name}. All rights reserved.
         </div>
-      </>
+      </div>
     ) : (
-      <div class="container footer__row">
+      <div class="container footer__line">
         <span class="footer__brand">{site.name}</span>
-        <span class="mono">
-          <a href={site.phoneHref}>{site.phone}</a> · Fax {site.fax} · {site.email}
+        <span>
+          <a href={site.phoneHref}>{site.phone}</a> · Fax {site.fax} · <a href={site.emailHref}>{site.email}</a>
         </span>
       </div>
     )
@@ -54,59 +54,55 @@ const year = new Date().getFullYear();
 <style>
   .footer {
     background: var(--c-dark);
-    color: var(--c-dark-text);
-    font-size: 14px;
+    color: var(--c-on-forest-3);
+    font-size: 15px;
+    line-height: 1.7;
   }
   .footer a {
-    color: var(--c-dark-text);
+    color: var(--c-on-forest-3);
   }
   .footer a:hover {
-    color: #fff;
+    color: var(--c-on-forest);
   }
   .footer--full {
-    padding: 40px 0;
-    line-height: 1.6;
+    padding: 56px 0 40px;
   }
   .footer--compact {
-    padding: 32px 0;
+    padding: 48px 0;
   }
-  .footer__grid {
+  .footer__cols {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 32px;
   }
   .footer__col {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 8px;
   }
-  .footer__col:first-child {
-    gap: 6px;
+  .footer__col--tight {
+    gap: 2px;
   }
   .footer__brand {
     font-family: var(--f-head);
-    font-weight: 700;
-    font-size: 18px;
-    color: #fff;
+    font-weight: 800;
+    font-size: 19px;
+    color: var(--c-on-forest);
   }
-  .footer__label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--c-muted);
+  .footer__head {
+    font-weight: 600;
+    color: var(--c-on-forest);
   }
   .footer__legal {
-    margin-top: 32px;
-    padding-top: 16px;
+    margin-top: 40px;
+    padding-top: 24px;
     border-top: 1px solid var(--c-dark-line);
-    font-size: 12px;
-    color: var(--c-muted);
+    font-size: 13px;
   }
-  .footer__row {
+  .footer__line {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 16px;
+    gap: 20px;
   }
 </style>

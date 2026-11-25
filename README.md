@@ -1,6 +1,6 @@
 # Timber Resources: website
 
-Site for [timberresources.net](https://timberresources.net), a lead-focused site for a Southern Yellow Pine lumber brokerage. Built with [Astro](https://astro.build) on the LedgerCraft structure with the Draft 1 color palette. See [DESIGN.md](DESIGN.md) for the design system and change log.
+Site for [timberresources.net](https://timberresources.net), a lead-focused site for a Southern Yellow Pine lumber brokerage. Built with [Astro](https://astro.build) in the Draft 1 ("original look") design: forest green, amber and cream, with Archivo and Inter. See [DESIGN.md](DESIGN.md) for the design system and change log.
 
 | Page | Source |
 |---|---|
@@ -36,10 +36,10 @@ The site deploys as a Cloudflare **Worker** (`timberresources`) that serves the 
 `public/_headers` is copied into `dist/` and keeps the `pages.dev` / `workers.dev` addresses out of search results.
 
 ## Before launch
-- Replace the `[EMAIL ADDRESS]` and `[BUSINESS HOURS]` placeholders in `src/data/site.ts`.
+- Make sure info@timberresources.net is set up and receiving mail.
 - Quote form: posts to Formspree (`https://formspree.io/f/mwloarkq`). Submissions go to the email address set on that Formspree form. Send one test submission to confirm the form before launch.
   - There is no file upload, so the form works on Formspree's free plan. Buyers paste a material list into the notes field.
   - In Formspree, add timberresources.net to the form's allowed domains.
-- Replace the `[PHOTO]` placeholders with real headshots of Ken, Sam and Chris.
+- Replace the monogram portraits with real headshots of Ken, Sam and Chris.
 - Confirm that the payment terms are approved for publication.
 - Google Tag Manager (`GTM-WN8CQMQS`) and LocalBusiness structured data are already in place; check them with Tag Manager Preview and Google's Rich Results Test once live.

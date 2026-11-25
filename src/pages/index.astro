@@ -1,210 +1,210 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
+import GrainRings from '../components/GrainRings.astro';
 import Photo from '../components/Photo.astro';
 import { site } from '../data/site';
 import { localBusinessSchema } from '../data/schema';
 import heroLumber from '../assets/images/hero-lumber-stack.webp';
+import pallets from '../assets/images/pallets.webp';
 import loadingTruck from '../assets/images/forklift-loading-truck.webp';
 import sawmillLine from '../assets/images/sawmill-line.webp';
 
-const quoteNeeds = [
-  ['Species / product', 'SYP boards, dimension, timbers'],
-  ['Dimensions & lengths', 'e.g. 1x6 × 40″'],
-  ['Grade', 'e.g. No. 3, MSR'],
-  ['Quantity', 'Truckloads / frequency'],
-  ['Treatment', 'Green, KD, pressure treated'],
-  ['Delivery ZIP & date', 'Your plant or yard'],
-];
-
-// [number, unit shown smaller beside it, label]
+// [figure, label]
 const stats = [
-  ['1981', '', 'Owner in the lumber industry since'],
-  ['2012', '', 'Timber Resources founded'],
-  ['2–3', 'days', 'Longest typical quote turnaround'],
-  ['1%', '10 days', 'Prompt-pay discount on lumber'],
+  ['Since 1981', 'Owner in the lumber industry'],
+  ['Est. 2012', 'Family-run brokerage'],
+  ['Full truckloads', 'Repeat and one-time orders'],
+  ['Often same day', 'Delivered quotes · 2–3 days at most'],
 ];
 
-const customers = [
-  {
-    name: 'Pallet, crate & industrial packaging',
-    core: true,
-    text: 'Boards, cants and dimension lumber for ongoing production — cut-to-length, resawn and remanufactured boards available.',
-  },
-  { name: 'Truss manufacturers', text: 'Structural SYP dimension lumber to your grade and length requirements.' },
-  { name: 'Dunnage', text: 'Economical boards and timbers for blocking, bracing and protecting freight.' },
-  {
-    name: 'Playground manufacturers',
-    text: 'High-grade 4x4, 2x4 and 1x4 — free of knots and wane, smooth-edged and pressure treated.',
-  },
-  {
-    name: 'Landscape timbers & reman',
-    text: 'Green, untreated timbers direct from plywood mills, or remanufactured into pallet boards. Southern US delivery.',
-  },
+const segments = [
+  ['Truss manufacturers', 'Structural SYP dimension lumber to your grade and length requirements.'],
+  ['Dunnage', 'Economical boards and timbers for blocking, bracing and protecting freight.'],
+  ['Playground manufacturers', 'Clear 4x4s, 2x4s and 1x4s — no knots or wane, smooth edges, pressure treated.'],
+  ['Landscape timbers & reman', 'Green, untreated timbers from plywood mills — or remanufactured into pallet boards.'],
 ];
 
 const steps = [
-  ['Send your specs', 'Species, sizes, grade, quantity, treatment and delivery ZIP — or paste in your material list.'],
-  ['We check mills & freight', 'We contact suitable mills in our network and price trucking to your location.'],
-  ['Review one delivered price', 'Freight included. Any better-value alternative is shown separately and needs your approval.'],
-  ['Updates to arrival', 'Material readiness, trucking and expected arrival — and we stay involved if something needs attention.'],
+  [
+    'Send your requirements',
+    'Species, dimensions, lengths, grade, quantity, treatment and delivery ZIP — or paste in your material list.',
+  ],
+  [
+    'We check mills and freight',
+    'We contact suitable mills in our network and price trucking to your location — whether the mill ships or we arrange it.',
+  ],
+  [
+    'Review one delivered price',
+    'Often the same day. If a better-value option exists we’ll show it — any change only with your approval.',
+  ],
+  [
+    'Track it to arrival',
+    'Updates on material readiness, trucking and expected arrival — and a person who stays involved if anything needs attention.',
+  ],
 ];
 
+// Monogram tiles stand in until real headshots arrive.
 const team = [
-  { name: 'Ken Proctor', role: 'Owner & Sales', bio: 'In lumber since 1981; sawmill experience nationwide.' },
-  { name: 'Sam Pratt', role: 'Sales · Jacksonville, FL', bio: '~40 years: sawmill sales manager, reman plant owner, wholesale.' },
-  { name: 'Chris Proctor', role: 'Sales & Accounts', bio: '5+ years with Timber Resources; quotes, orders and accounting.' },
+  {
+    initials: 'KP',
+    tone: 'var(--c-forest)',
+    name: 'Ken Proctor',
+    role: 'Owner & Sales',
+    bio: 'Ken started in the lumber business in 1981 and spent three decades working for sawmills around the country before founding Timber Resources in 2012. New customers usually start with a call to Ken.',
+  },
+  {
+    initials: 'SP',
+    tone: 'var(--c-forest-2)',
+    name: 'Sam Pratt',
+    role: 'Sales · Jacksonville, Florida',
+    bio: 'Sam has been in the lumber business for about 40 years, from managing sales at a sawmill to owning a remanufacturing plant and working in wholesale. Sam works out of our Jacksonville, Florida office.',
+  },
+  {
+    initials: 'CP',
+    tone: 'var(--c-forest-3)',
+    name: 'Chris Proctor',
+    role: 'Sales & Accounts',
+    bio: 'Chris joined Timber Resources more than five years ago and looks after quotes, orders and customer accounts.',
+  },
 ];
 
 const terms = [
-  ['Credit-insured accounts', 'Credit limits are set through our receivables insurer. Once approved, that line is yours.'],
-  ['1% 10 days', '1% off the lumber portion of the invoice (not freight) when paid within 10 days.'],
-  ['Full truckloads', 'Our focus. Partial loads may be possible depending on material and destination.'],
+  [
+    'Insured credit lines',
+    'Our receivables are credit-insured, so qualified customers can be set up on open terms with a limit approved through our insurer.',
+  ],
+  ['1% 10 days', 'Pay within 10 days and take 1% off the lumber portion of your invoice.'],
+  [
+    'Serving the South',
+    'Our core market is the Southeast, with customers in Texas, Kansas and beyond. Freight is evaluated for every destination.',
+  ],
 ];
 ---
 
 <BaseLayout
   title="Timber Resources — Southern Yellow Pine Lumber Broker"
-  description="Truckload Southern Yellow Pine lumber for pallet, truss, dunnage and playground manufacturers. One delivered price, freight included."
+  description="Southern Yellow Pine sourcing for manufacturers and commercial buyers. Competitive delivered quotes, truckload supply, and personal order updates."
   footer="full"
   jsonLd={localBusinessSchema}
 >
   <!-- Hero -->
   <section class="hero">
+    <GrainRings class="hero__grain" rings={16} seed={2} />
     <div class="container hero__grid">
       <div class="hero__copy">
-        <span class="overline overline--primary">Southern Yellow Pine lumber broker</span>
-        <h1>Truckload lumber for pallet, truss, dunnage and playground manufacturers.</h1>
+        <p class="eyebrow eyebrow--amber">Southern Yellow Pine lumber broker</p>
+        <h1>Truckload lumber for the plants that build pallets, trusses and playgrounds.</h1>
         <p class="hero__lead">
-          Send us your specifications. We match them to the right Southern mill, price the freight, and give you one
-          delivered number — then keep you updated until the truck arrives.
+          Send us your specs. We find the right Southern mill, build freight into one delivered price, and keep you
+          posted until the truck backs into your dock.
         </p>
         <div class="hero__actions">
-          <a href="/quote/" class="btn btn--primary">Request a Delivered Quote</a>
-          <a href={site.phoneHref} class="btn btn--secondary">Call {site.phone}</a>
+          <a href="/quote/" class="btn btn--amber">Request a Delivered Quote</a>
+          <a href={site.phoneHref} class="btn btn--line tabular">Call {site.phone}</a>
         </div>
       </div>
-
-      <div class="card card--elevated hero__card">
-        <div class="card__head">
-          <span>What we need to quote</span>
-          <span class="chip chip--status">Often same day</span>
-        </div>
-        <table class="needs">
-          <tbody>
-            {
-              quoteNeeds.map(([k, v]) => (
-                <tr>
-                  <th scope="row">{k}</th>
-                  <td class="mono">{v}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-        <div class="needs__foot">
-          Already have a material list? <a href="/quote/">Paste it in instead →</a>
-        </div>
-      </div>
+      <figure class="hero__figure">
+        <Photo
+          src={heroLumber}
+          alt="Bundles of stacked pine lumber in a lumber yard under a blue sky"
+          ratio="5 / 4"
+          sizes="(max-width: 900px) 100vw, 572px"
+          priority
+          class="hero__photo"
+        />
+        <figcaption>Sourced through established Southern mills</figcaption>
+      </figure>
+    </div>
+    <div class="stats">
+      <span class="ruler stats__ruler" aria-hidden="true"></span>
+      <dl class="container stats__grid">
+        {
+          stats.map(([figure, label]) => (
+            <div class="stat">
+              <dt>{label}</dt>
+              <dd>{figure}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
   </section>
 
-  <!-- Photo band -->
-  <div class="hero-band">
-    <Photo
-      src={heroLumber}
-      alt="Bundles of stacked pine lumber in a lumber yard under a blue sky"
-      ratio="auto"
-      sizes="100vw"
-      maxWidth={2400}
-      priority
-      bare
-    />
-  </div>
+  <!-- Who we supply -->
+  <section class="section" aria-labelledby="supply-h">
+    <div class="container supply">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Who we supply</p>
+        <h2 id="supply-h" class="h2">Lumber for manufacturers who buy by the truckload.</h2>
+        <p class="lead">
+          Tell us your species, sizes, grade and delivery point. We match your specs to the right mill and quote it
+          delivered to your door.
+        </p>
+      </div>
 
-  <!-- Stats -->
-  <section aria-label="At a glance" class="stats">
-    <div class="container stats__inner">
-      <div class="cell-grid">
+      <a href="/products/" class="card seg core" data-reveal>
+        <Photo
+          src={pallets}
+          alt="Newly built wooden pallets stacked and ready for distribution"
+          ratio="auto"
+          sizes="(max-width: 800px) 100vw, 600px"
+          bare
+          class="core__photo"
+        />
+        <div class="core__body">
+          <span class="core__tag">Our core business</span>
+          <h3>Pallet, crate &amp; industrial packaging</h3>
+          <p>
+            Boards, cants and dimension lumber for pallet and crate plants, pallet recyclers and industrial packaging
+            operations — sourced for ongoing production, load after load.
+          </p>
+          <span class="core__more">See pallet lumber <span class="arrow" aria-hidden="true">→</span></span>
+        </div>
+      </a>
+
+      <div class="segments">
         {
-          stats.map(([n, unit, l]) => (
-            <div class="stat">
-              <span class="stat__num">
-                {n}
-                {unit && <span class="stat__unit">{unit}</span>}
-              </span>
-              <span class="stat__label">{l}</span>
-            </div>
+          segments.map(([title, text], i) => (
+            <a href="/products/" class="card seg segment" data-reveal style={`--reveal-i: ${i}`}>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </a>
           ))
         }
       </div>
     </div>
   </section>
 
-  <!-- Who we supply -->
-  <section class="section">
-    <div class="container stack">
-      <div class="section-head">
-        <span class="overline">Who we supply</span>
-        <h2>Built for manufacturers who buy by the truckload.</h2>
-      </div>
-      <div class="card table-wrap">
-        <table class="customers">
-          <thead>
-            <tr>
-              <th scope="col">Customer</th>
-              <th scope="col">What we supply</th>
-              <th scope="col" class="r">Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              customers.map((c) => (
-                <tr>
-                  <td class="customers__name">
-                    <strong>{c.name}</strong>
-                    {c.core && <span class="chip chip--status">Core business</span>}
-                  </td>
-                  <td class="muted">{c.text}</td>
-                  <td class="r">
-                    <a href="/products/" class="link-quiet">
-                      View<span class="visually-hidden"> {c.name}</span> →
-                    </a>
-                  </td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
   <!-- How we work -->
-  <section id="how" class="section section--surface">
-    <div class="container stack">
-      <div class="split">
-        <div class="section-head">
-          <span class="overline">How we work</span>
-          <h2>Know the delivered price. Know what happens next.</h2>
-          <p class="split__text">
-            Freight is part of every quote, so the number you approve is the number delivered to your dock.
-          </p>
-        </div>
+  <section id="how" class="section how" aria-labelledby="how-h">
+    <div class="container how__grid">
+      <div class="section-head how__head" data-reveal>
+        <p class="eyebrow">How we work</p>
+        <h2 id="how-h" class="h2">Know the delivered price. Know what happens next.</h2>
+        <p class="lead">
+          A lumber order is more than a mill price. Availability, freight and timing all matter — we handle those
+          details and keep you informed.
+        </p>
         <Photo
           src={loadingTruck}
           alt="Forklift loading bundles of lumber onto a flatbed trailer"
-          ratio="16 / 9"
-          sizes="(max-width: 760px) 100vw, 576px"
+          ratio="16 / 10"
+          sizes="(max-width: 900px) 100vw, 548px"
+          class="how__photo"
         />
       </div>
-      <ol class="cell-grid steps">
+      <ol class="steps">
         {
           steps.map(([title, text], i) => (
-            <li>
-              <span class="mono steps__num">{String(i + 1).padStart(2, '0')}</span>
-              <strong>{title}</strong>
-              <span class="muted">{text}</span>
+            <li data-reveal style={`--reveal-i: ${i}`}>
+              <span class="steps__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </div>
             </li>
           ))
         }
@@ -213,414 +213,397 @@ const terms = [
   </section>
 
   <!-- About -->
-  <section id="about" class="section about">
-    <div class="container stack" style="--stack-gap: 48px">
-      <div class="split about__split">
-        <div class="section-head about__copy" style="gap: 16px">
-          <span class="overline">About us</span>
-          <h2>Sawmill experience. A family business that stays involved.</h2>
-          <p class="about__text">
+  <section id="about" class="section about" aria-labelledby="about-h">
+    <div class="container about__inner">
+      <div class="about__intro" data-reveal>
+        <div class="section-head">
+          <p class="eyebrow">About Timber Resources</p>
+          <h2 id="about-h" class="h2">Sawmill experience. A family business that stays involved.</h2>
+        </div>
+        <div class="about__text">
+          <p>
             Ken Proctor has worked in the lumber industry since 1981, for sawmills across the country — including a year
-            with a spruce manufacturer in British Columbia. He founded Timber Resources in 2012. When you call, you talk
-            to the people sourcing your order.
+            with a spruce manufacturer in British Columbia. He started Timber Resources in 2012 to put that mill-side
+            knowledge to work for buyers.
+          </p>
+          <p>
+            Our small team brings more than eight decades of combined experience in sawmilling, remanufacturing and
+            wholesale lumber. When you call, you talk to the people sourcing your order.
           </p>
         </div>
-        <div class="about__media">
-          <Photo
-            src={sawmillLine}
-            alt="Pine logs moving along the cutting line inside a sawmill"
-            ratio="4 / 3"
-            sizes="(max-width: 960px) 100vw, 680px"
-          />
-        </div>
       </div>
-      <div class="team">
+      <Photo
+        src={sawmillLine}
+        alt="Pine logs moving along the cutting line inside a sawmill"
+        ratio="auto"
+        sizes="(max-width: 1248px) 100vw, 1152px"
+        maxWidth={1600}
+        class="about__photo"
+      />
+      <ul class="team">
         {
-          team.map((p) => (
-            <div class="card person">
-              <div class="person__photo" aria-hidden="true">
-                [PHOTO]
+          team.map((p, i) => (
+            <li class="person" data-reveal style={`--reveal-i: ${i}`}>
+              <div class="person__mono" style={`background: ${p.tone}`} aria-hidden="true">
+                {p.initials}
               </div>
-              <div class="person__body">
-                <strong>{p.name}</strong>
-                <span class="person__role">{p.role}</span>
-                <span class="person__bio">{p.bio}</span>
-              </div>
-            </div>
+              <h3>{p.name}</h3>
+              <p class="person__role">{p.role}</p>
+              <p class="person__bio">{p.bio}</p>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </section>
 
   <!-- Terms -->
-  <section id="terms" class="terms-section">
-    <div class="container">
-      <div class="card">
-        <div class="card__head">Account &amp; terms</div>
-        <div class="cell-grid terms" style="--cell-min: 260px">
-          {
-            terms.map(([t, d]) => (
-              <div>
-                <strong>{t}</strong>
-                <span class="muted">{d}</span>
-              </div>
-            ))
-          }
-        </div>
-      </div>
+  <section id="terms" class="terms-section" aria-labelledby="terms-h">
+    <div class="container terms__inner" data-reveal>
+      <h2 id="terms-h">Account &amp; terms</h2>
+      <span class="ruler terms__ruler" aria-hidden="true"></span>
+      <dl class="terms">
+        {
+          terms.map(([t, d]) => (
+            <div>
+              <dt>{t}</dt>
+              <dd>{d}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
   </section>
 
-  <CtaBand title="Have a material list ready?" text="Quotes are often ready the same day. No purchase order needed." size="lg">
-    <a href="/quote/" class="btn btn--inverse">Request a Delivered Quote</a>
-    <a href={site.phoneHref} class="btn btn--outline-inverse mono">{site.phone}</a>
+  <CtaBand
+    title="Have a material list ready?"
+    text="Send it over. Quotes are often ready the same day — allow two to three days when mills take longer to respond. No purchase order needed."
+  >
+    <a href="/quote/" class="btn btn--amber">Request a Delivered Quote</a>
+    <a href={site.phoneHref} class="btn btn--line tabular">{site.phone}</a>
   </CtaBand>
 </BaseLayout>
 
 <style>
   /* Hero */
   .hero {
-    background: var(--c-surface);
-    border-bottom: 1px solid var(--c-border);
+    position: relative;
+    overflow: hidden;
+    background: var(--c-forest);
+    color: var(--c-on-forest);
+  }
+  /* End-grain rings, cropped off the lower-left corner behind the headline */
+  .hero :global(.hero__grain) {
+    width: clamp(520px, 62vw, 860px);
+    left: clamp(-420px, -24vw, -200px);
+    bottom: clamp(-460px, -26vw, -240px);
+    color: var(--c-forest-line);
+    opacity: 0.9;
+  }
+  .hero__grid,
+  .stats {
+    position: relative;
   }
   .hero__grid {
-    padding-top: 64px;
-    padding-bottom: 64px;
+    padding-top: clamp(56px, 8vw, 96px);
+    padding-bottom: clamp(48px, 7vw, 80px);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
-    gap: 48px;
-    align-items: start;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 56px;
+    align-items: center;
   }
   .hero__copy {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
   }
   .hero h1 {
-    font-size: 44px;
-    line-height: 1.15;
-    letter-spacing: 0.01em;
+    font-size: clamp(38px, 5.2vw, 60px);
+    line-height: 1.04;
+    font-weight: 800;
+    letter-spacing: -0.025em;
   }
   .hero__lead {
-    font-size: 18px;
-    line-height: 1.55;
-    color: var(--c-ink-2);
-    max-width: 560px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--c-on-forest-2);
+    max-width: 34em;
   }
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    padding-top: 4px;
+    gap: 12px;
+    padding-top: 6px;
   }
-  @media (max-width: 640px) {
-    .hero h1 {
-      font-size: 34px;
-    }
+  .hero__figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .hero__figure :global(.hero__photo) {
+    object-position: center 60%;
+    box-shadow: var(--shadow-photo);
+  }
+  .hero__figure figcaption {
+    font-size: 13px;
+    color: var(--c-on-forest-4);
   }
 
-  .needs {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
+  /* Stats strip along the bottom of the hero */
+  .stats__ruler {
+    color: var(--c-forest-line);
   }
-  .needs tr {
-    border-bottom: 1px solid var(--c-border);
-  }
-  .needs tr:nth-child(even) {
-    background: var(--c-surface-alt);
-  }
-  .needs tr:last-child {
-    border-bottom: 0;
-  }
-  .needs th {
-    text-align: left;
-    padding: 10px 20px;
-    font-weight: 500;
-    color: var(--c-steel);
-    width: 44%;
-  }
-  .needs td {
-    padding: 10px 20px;
-    font-size: 13px;
-  }
-  .needs__foot {
-    padding: 14px 20px;
-    border-top: 1px solid var(--c-border);
-    font-size: 13px;
-    color: var(--c-ink-2);
-  }
-  .needs__foot a {
-    font-weight: 500;
-  }
-
-  /* Stats */
-  .stats {
-    border-bottom: 1px solid var(--c-border);
-    background: var(--c-bg);
-  }
-  .stats__inner {
-    padding-left: 0;
-    padding-right: 0;
+  .stats__grid {
+    margin-top: 0;
+    margin-bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   }
   .stat {
-    padding: 36px 28px 32px;
+    padding: 26px 24px 26px 0;
     display: flex;
-    flex-direction: column;
-    gap: 14px;
+    flex-direction: column-reverse;
+    gap: 4px;
   }
-  /* Short amber rule above each figure */
-  .stat::before {
-    content: '';
-    width: 28px;
-    height: 3px;
-    background: var(--c-accent);
-  }
-  .stat__num {
-    font-family: var(--f-head);
-    font-weight: 700;
-    font-size: clamp(40px, 4.2vw, 56px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    font-variant-numeric: lining-nums;
-    color: var(--c-ink);
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .stat__unit {
-    font-family: var(--f-body);
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: var(--c-primary);
-  }
-  .stat__label {
-    font-size: 13px;
-    line-height: 1.4;
-    color: var(--c-steel);
-  }
-
-  /* Customers table */
-  .table-wrap {
-    overflow-x: auto;
-  }
-  .customers {
-    width: 100%;
-    min-width: 760px;
-    border-collapse: collapse;
+  .stat dt {
     font-size: 14px;
-    text-align: left;
+    color: var(--c-on-forest-3);
   }
-  .customers thead tr {
-    background: var(--c-surface-alt);
-    border-bottom: 1px solid var(--c-border-strong);
-  }
-  .customers th {
-    padding: 10px 16px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--c-steel);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .customers td {
-    padding: 16px;
-    vertical-align: top;
-    line-height: 1.5;
-  }
-  .customers tbody tr {
-    border-bottom: 1px solid var(--c-border);
-  }
-  .customers tbody tr:last-child {
-    border-bottom: 0;
-  }
-  .customers tbody tr:hover {
-    background: var(--c-surface-sunk);
-  }
-  .customers__name {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .customers__name strong {
-    font-size: 16px;
-  }
-  .customers .r {
-    text-align: right;
-    white-space: nowrap;
-  }
-  .link-quiet {
-    font-weight: 500;
-    text-decoration: none;
+  .stat dd {
+    margin: 0;
+    font-family: var(--f-head);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--c-on-forest);
   }
 
-  /* Steps */
+  /* Who we supply */
+  .supply {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .core {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    border-radius: var(--r-card);
+    overflow: hidden;
+  }
+  .core :global(.core__photo) {
+    height: 100%;
+    min-height: 280px;
+  }
+  .core__body {
+    padding: clamp(28px, 4vw, 44px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+  }
+  .core__tag {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-rust);
+  }
+  .core h3 {
+    font-size: clamp(24px, 2.6vw, 30px);
+    line-height: 1.15;
+    font-weight: 700;
+  }
+  .core p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--c-body);
+  }
+  .core__more {
+    font-weight: 600;
+    color: var(--c-rust);
+    padding-top: 4px;
+  }
+  .segments {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: 16px;
+  }
+  .segment {
+    border-radius: var(--r-card);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .segment h3 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .segment p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--c-body);
+  }
+
+  /* How we work */
+  .how {
+    background: var(--c-sand);
+  }
+  .how__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 48px 64px;
+    align-items: start;
+  }
+  .how__head :global(.how__photo) {
+    margin-top: 12px;
+  }
   .steps {
     margin: 0;
     padding: 0;
     list-style: none;
-    border: 1px solid var(--c-border);
-    border-radius: var(--r-md);
+    display: flex;
+    flex-direction: column;
   }
   .steps li {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 16px;
+    padding: 24px 0;
+    border-top: 1px solid var(--c-line-strong);
+  }
+  .steps li:last-child {
+    border-bottom: 1px solid var(--c-line-strong);
   }
   .steps__num {
-    font-size: 13px;
-    color: var(--c-primary);
+    font-family: var(--f-head);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--c-rust);
+    padding-top: 3px;
   }
-  .steps strong {
-    font-size: 17px;
-  }
-  .steps .muted {
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
-  /* Full-width photo band under the hero */
-  .hero-band {
-    border-bottom: 1px solid var(--c-border);
-  }
-  .hero-band :global(.photo) {
-    height: clamp(200px, 28vw, 400px);
-    object-position: center 60%;
-  }
-
-  /* Heading + photo side by side (How we work, About) */
-  .split {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
-    gap: 32px 48px;
-    align-items: center;
-  }
-  .split__text {
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--c-ink-2);
-  }
-
-  /* Wider headline column on desktop */
-  @media (min-width: 960px) {
-    .hero__grid {
-      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-      gap: 72px;
-      padding-top: 80px;
-      padding-bottom: 80px;
-    }
-    .hero h1 {
-      font-size: 50px;
-    }
-  }
-
-  /*
-   * About mirrors How we work. A larger photo sits on the left over an offset
-   * tinted block; the copy drops lower on the right.
-   */
-  .about__media {
-    position: relative;
-  }
-  @media (min-width: 960px) {
-    .about {
-      padding-top: 112px;
-    }
-    .about__split {
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-      gap: 64px;
-      align-items: end;
-    }
-    .about__media {
-      order: -1;
-    }
-    .about__media::before {
-      content: '';
-      position: absolute;
-      inset: 28px 28px -28px -28px;
-      background: var(--c-primary-tint);
-      border: 1px solid var(--c-primary-tint-border);
-      border-radius: var(--r-md);
-      z-index: 0;
-    }
-    .about__media :global(.photo) {
-      position: relative;
-      z-index: 1;
-    }
-    .about__copy {
-      padding-bottom: 8px;
-      border-top: 3px solid var(--c-primary);
-      padding-top: 24px;
-    }
-  }
-
-  /* About */
-  .about__text {
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--c-ink-2);
-  }
-  .team {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-    gap: 16px;
-  }
-  .person {
-    padding: 16px;
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-  .person__photo {
-    width: 88px;
-    height: 88px;
-    flex: 0 0 88px;
-    border-radius: var(--r-sm);
-    background: var(--c-surface-sunk);
-    border: 1px dashed var(--c-neutral);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    color: var(--c-steel);
-  }
-  .person__body {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .person__body strong {
-    font-size: 16px;
-  }
-  .person__role {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--c-primary);
-  }
-  .person__bio {
-    font-size: 13px;
-    line-height: 1.45;
-    color: var(--c-ink-2);
-  }
-
-  /* Terms */
-  .terms-section {
-    padding-bottom: 64px;
-  }
-  .terms > div {
-    padding: 20px;
+  .steps li div {
     display: flex;
     flex-direction: column;
     gap: 6px;
   }
-  .terms strong {
-    font-size: 15px;
+  .steps h3 {
+    font-size: 20px;
+    font-weight: 700;
   }
-  .terms .muted {
+  .steps p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--c-body);
+  }
+
+  /* About */
+  .about {
+    background: var(--c-surface);
+    border-bottom: 1px solid var(--c-line);
+  }
+  .about__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .about__intro {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 24px 64px;
+    align-items: start;
+  }
+  .about__text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--c-ink-2);
+  }
+  .about__inner :global(.about__photo) {
+    height: clamp(220px, 30vw, 380px);
+  }
+  .team {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 32px 24px;
+  }
+  .person {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .person__mono {
+    aspect-ratio: 1 / 1;
+    max-width: 200px;
+    width: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--f-head);
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--c-amber);
+    letter-spacing: -0.02em;
+  }
+  .person h3 {
+    margin-top: 4px;
+    font-size: 21px;
+    font-weight: 700;
+  }
+  .person__role {
     font-size: 14px;
-    line-height: 1.5;
+    font-weight: 600;
+    color: var(--c-rust);
+  }
+  .person__bio {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--c-body);
+  }
+
+  /* Terms */
+  .terms-section {
+    padding: clamp(56px, 7vw, 80px) 0;
+  }
+  .terms__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .terms__inner h2 {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .terms__ruler {
+    color: var(--c-ink);
+    margin-bottom: -20px; /* the ticks sit on the top edge of the terms row */
+  }
+  .terms {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+  .terms div {
+    padding: 22px 28px 22px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .terms dt {
+    font-family: var(--f-head);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .terms dd {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--c-body);
   }
 </style>

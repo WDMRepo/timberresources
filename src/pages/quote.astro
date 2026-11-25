@@ -1,59 +1,61 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
+import GrainRings from '../components/GrainRings.astro';
 
 const faqs = [
   [
     'Do you sell partial loads?',
-    'Full truckloads are our focus. Partial loads may be possible depending on product, destination and freight.',
+    'Full truckloads are our focus. Partial loads may be possible depending on the product, destination and freight options.',
   ],
   [
     'How do credit and terms work?',
-    'Our receivables are credit-insured. We request a limit through our insurer; once approved, we extend that line to you. Standard terms are 1% 10 days on the lumber portion of the invoice (not freight).',
+    'Our receivables are credit-insured. We request a credit limit for your account through our insurer, and once it’s approved we extend that line to you. Standard terms are 1% 10 days — a 1% discount on the lumber portion of the invoice (not freight) when paid within 10 days.',
   ],
   [
     'Where do you deliver?',
-    'Our core market is the Southeast, with customers in Texas, Kansas and other states. Heavy green products suit Southern destinations.',
+    'Our core market is the Southeast, and we serve customers in other states including Texas and Kansas. Heavy green products are best suited to Southern destinations.',
   ],
   [
     'Who arranges trucking?',
-    'Some mills ship directly; otherwise we coordinate through our trucking contacts. Freight is included in your delivered price.',
+    'It depends on the order. Some mills ship directly; otherwise we coordinate through our trucking contacts. Freight is included in your delivered price.',
   ],
-  ['Can you handle recurring orders?', 'Yes. Availability and pricing are checked for each load.'],
+  [
+    'Can you handle recurring orders?',
+    'Yes — many customers reorder the same material regularly. Availability and pricing are checked for each load.',
+  ],
   [
     'What if there’s a problem with a load?',
-    'Call us. We’ll review it with you and the parties involved and stay with it until it’s resolved.',
+    'Call us. We’ll review the issue with you and the parties involved and stay with it until it’s resolved.',
   ],
 ];
 ---
 
 <BaseLayout
   title="Request a Delivered Lumber Quote | Timber Resources"
-  description="Request a delivered Southern Yellow Pine lumber quote. Quotes are often ready the same day; no purchase order needed."
+  description="Request a delivered Southern Yellow Pine lumber quote. Send your specs or material list — quotes are often ready the same day. No purchase order needed."
   showHeaderCta={false}
 >
-  <section class="page-intro">
-    <div class="container" style="padding-top: 40px; padding-bottom: 40px; gap: 10px">
-      <span class="overline overline--primary">Request a quote</span>
-      <h1>Get a delivered lumber quote.</h1>
-      <p class="lead">
-        Quotes are often ready the same day; allow two to three days when mills take longer to respond. No purchase order
-        needed.
-      </p>
-    </div>
-  </section>
-
   <section class="quote">
-    <div class="container quote__layout">
+    <div class="container quote__grid">
       <div class="quote__main">
-        <div class="card card--status" role="status" data-quote-success hidden>
-          <span class="chip chip--status">Received</span>
-          <h2>Thank you for contacting Timber Resources.</h2>
+        <div class="quote__head">
+          <p class="eyebrow">Request a quote</p>
+          <h1>Get a delivered lumber quote.</h1>
+          <p class="lead">
+            Tell us what you need and where it’s going. Quotes are often ready the same day; allow two to three days when
+            mills take longer to respond. No purchase order needed.
+          </p>
+        </div>
+
+        <div class="card thanks" data-quote-success hidden tabindex="-1">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#22382D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M8 12l3 3 5-6"></path></svg>
+          <h2 role="status">Thanks — we’ve got your request.</h2>
           <p>
             Our team will review the details and contact you with any questions or a quote. Quotes are often available the
             same day; allow two to three days when supplier responses take longer.
           </p>
-          <button type="button" class="btn btn--secondary btn--sm" data-quote-reset>Send another request</button>
+          <button type="button" class="btn btn--ghost btn--sm" data-quote-reset>Send another request</button>
         </div>
 
         <form
@@ -64,90 +66,98 @@ const faqs = [
           data-endpoint={site.quoteFormEndpoint}
           data-quote-form
         >
+          <input type="hidden" name="_subject" value="New delivered quote request — timberresources.net" />
+          <div class="honeypot" aria-hidden="true">
+            <label>Leave this empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
           <fieldset>
-            <legend>1 · Company &amp; delivery</legend>
+            <legend>1. Your company &amp; delivery</legend>
             <div class="form__grid">
-              <label>Company name *<input class="f" type="text" name="company" autocomplete="organization" required /></label>
-              <label>Contact name *<input class="f" type="text" name="contact" autocomplete="name" required /></label>
-              <label>Email *<input class="f" type="email" name="email" autocomplete="email" required /></label>
-              <label>Phone *<input class="f mono" type="tel" name="phone" autocomplete="tel" required /></label>
-              <label>
-                Delivery city, state &amp; ZIP *
-                <input class="f" type="text" name="delivery_location" required aria-describedby="loc-help" />
-                <span class="help" id="loc-help">Used to price freight to your door.</span>
-              </label>
-              <label>Requested delivery timing<input class="f" type="text" name="delivery_timing" placeholder="Date, or “flexible”" /></label>
+              <label>Company name *<input type="text" name="company" autocomplete="organization" required /></label>
+              <label>Contact name *<input type="text" name="name" autocomplete="name" required /></label>
+              <label>Email *<input type="email" name="email" autocomplete="email" required /></label>
+              <label>Phone *<input type="tel" name="phone" autocomplete="tel" required /></label>
+              <label
+                >Delivery city, state &amp; ZIP *<input
+                  type="text"
+                  name="delivery_location"
+                  required
+                  placeholder="e.g. Valdosta, GA 31601"
+                /></label
+              >
+              <label
+                >Requested delivery timing<input type="text" name="delivery_timing" placeholder="Date, or “flexible”" /></label
+              >
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>2 · Material requirements</legend>
-            <div class="form__body">
-              <div class="form__grid">
-                <label>
-                  Buying for
-                  <select class="f" name="buying_for">
-                    <option>Pallet / crate / packaging</option>
-                    <option>Truss manufacturing</option>
-                    <option>Dunnage</option>
-                    <option>Playground manufacturing</option>
-                    <option>Landscape timbers / reman</option>
-                    <option>Other</option>
-                  </select>
-                </label>
-                <label>Dimensions &amp; lengths<input class="f mono" type="text" name="dimensions" placeholder="e.g. 1x6 × 40″" /></label>
-                <label>Grade<input class="f" type="text" name="grade" placeholder="e.g. No. 3" /></label>
-                <label>Quantity &amp; unit<input class="f" type="text" name="quantity" placeholder="e.g. 2 truckloads / month" /></label>
-                <label>
-                  Treatment
-                  <select class="f" name="treatment">
-                    <option>None / green</option>
-                    <option>Kiln dried</option>
-                    <option>Pressure treated</option>
-                    <option>Heat treated (HT)</option>
-                    <option>Not sure</option>
-                  </select>
-                </label>
-                <label>
-                  Alternatives acceptable?
-                  <select class="f" name="alternatives">
-                    <option>Discuss with me first</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                  </select>
-                </label>
-              </div>
+            <legend>2. What you need</legend>
+            <div class="form__grid">
               <label>
-                Material list, notes or special handling
-                <textarea class="f" name="notes" rows="5" aria-describedby="notes-help"></textarea>
-                <span class="help" id="notes-help">Have a material list? Paste it here instead of filling in the fields above.</span>
+                I’m buying for
+                <select name="buying_for">
+                  <option>Pallet / crate / packaging</option>
+                  <option>Truss manufacturing</option>
+                  <option>Dunnage</option>
+                  <option>Playground manufacturing</option>
+                  <option>Landscape timbers / remanufacturing</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label
+                >Dimensions &amp; lengths<input
+                  type="text"
+                  name="dimensions_lengths"
+                  placeholder="e.g. 1x6 x 40″, 2x4 x 8′"
+                /></label
+              >
+              <label>Grade<input type="text" name="grade" placeholder="e.g. No. 3, MSR 2400" /></label>
+              <label>Quantity<input type="text" name="quantity" placeholder="e.g. 2 truckloads / month" /></label>
+              <label>
+                Treatment
+                <select name="treatment">
+                  <option>None / green</option>
+                  <option>Kiln dried</option>
+                  <option>Pressure treated</option>
+                  <option>Heat treated (HT)</option>
+                  <option>Not sure</option>
+                </select>
+              </label>
+              <label>
+                Alternatives acceptable?
+                <select name="alternatives">
+                  <option>Discuss with me first</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
               </label>
             </div>
+            <label>Notes or special handling<textarea name="notes" rows="4"></textarea></label>
           </fieldset>
 
           <div class="form__foot">
-            <span>* Required</span>
-            <button type="submit" class="btn btn--primary">Submit quote request</button>
+            <p class="form__error" role="alert" data-quote-error hidden></p>
+            <button type="submit" class="btn btn--amber btn--lg" data-quote-submit>Submit quote request</button>
+            <span class="form__hint">Have a long material list? Paste it into the notes or email it to <a href={site.emailHref}>{site.email}</a>.</span>
           </div>
-          <p class="form__error" role="alert" data-quote-error hidden>
-            Something went wrong sending your request. Please try again or call {site.phone}.
-          </p>
         </form>
       </div>
 
       <aside class="quote__aside">
-        <div class="card">
-          <div class="card__head">Prefer a conversation?</div>
-          <dl class="kv kv--split">
-            <div><dt>Phone</dt><dd class="mono"><a href={site.phoneHref}>{site.phone}</a></dd></div>
-            <div><dt>Fax</dt><dd class="mono">{site.fax}</dd></div>
-            <div><dt>Email</dt><dd>{site.email}</dd></div>
-            <div><dt>Hours</dt><dd>{site.hours}</dd></div>
-          </dl>
+        <div class="talk">
+          <GrainRings class="talk__grain" rings={10} seed={5} />
+          <h2>Prefer to talk it through?</h2>
+          <p>Call our team directly. New customers often start with a conversation with the owner.</p>
+          <a href={site.phoneHref} class="talk__phone tabular">{site.phone}</a>
+          <span class="talk__meta">
+            Fax {site.fax}<br /><a href={site.emailHref}>{site.email}</a>
+          </span>
         </div>
 
-        <div class="card faq">
-          <div class="card__head">Before your first order</div>
+        <div class="card faq" data-reveal>
+          <h2>Before your first order</h2>
           {
             faqs.map(([q, a]) => (
               <details>
@@ -163,241 +173,336 @@ const faqs = [
 </BaseLayout>
 
 <script>
+  // Quote form → Formspree (fetch, with a plain POST fallback when JS is off).
   const form = document.querySelector<HTMLFormElement>('[data-quote-form]');
   const success = document.querySelector<HTMLElement>('[data-quote-success]');
-  const reset = document.querySelector<HTMLButtonElement>('[data-quote-reset]');
   const error = document.querySelector<HTMLElement>('[data-quote-error]');
+  const submit = document.querySelector<HTMLButtonElement>('[data-quote-submit]');
+  const reset = document.querySelector<HTMLButtonElement>('[data-quote-reset]');
+  const phone = '(901) 395-4736';
 
-  if (form && success && reset && error) {
-    const showSuccess = () => {
-      form.hidden = true;
-      success.hidden = false;
-      success.focus();
-    };
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      error.hidden = true;
-      const endpoint = form.dataset.endpoint;
-
-      if (!endpoint) {
-        // No endpoint configured yet (see src/data/site.ts): nothing is sent.
-        console.warn('Quote form: no endpoint configured, submission not sent.');
-        showSuccess();
-        return;
-      }
-
-      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-      if (button) button.disabled = true;
-      try {
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'application/json' },
-        });
-        if (!res.ok) throw new Error(String(res.status));
-        showSuccess();
-      } catch {
-        error.hidden = false;
-      } finally {
-        if (button) button.disabled = false;
-      }
-    });
-
-    reset.addEventListener('click', () => {
-      form.reset();
-      success.hidden = true;
-      form.hidden = false;
-      form.querySelector<HTMLInputElement>('input')?.focus();
-    });
-
-    success.tabIndex = -1;
+  function showSuccess() {
+    if (!form || !success) return;
+    form.reset();
+    form.hidden = true;
+    success.hidden = false;
+    success.focus();
+    window.scrollTo({ top: success.getBoundingClientRect().top + window.scrollY - 120 });
   }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity() || !submit || !error) return;
+    const endpoint = form.dataset.endpoint;
+    if (!endpoint) return showSuccess(); // demo mode: no endpoint configured
+
+    error.hidden = true;
+    const label = submit.textContent;
+    submit.disabled = true;
+    submit.textContent = 'Sending…';
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      if (res.ok) {
+        showSuccess();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        const msg =
+          (data?.errors as { message: string }[] | undefined)?.map((x) => x.message).join(' ') ||
+          'Something went wrong sending your request.';
+        error.textContent = `${msg} Please try again or call ${phone}.`;
+        error.hidden = false;
+      }
+    } catch {
+      error.textContent = `We couldn’t reach the server. Please try again or call ${phone}.`;
+      error.hidden = false;
+    } finally {
+      submit.disabled = false;
+      submit.textContent = label;
+    }
+  });
+
+  reset?.addEventListener('click', () => {
+    if (!form || !success) return;
+    success.hidden = true;
+    form.hidden = false;
+  });
 </script>
 
 <style>
   .quote {
-    padding: 40px 0 64px;
+    padding: 72px 0 96px;
   }
-  .quote__layout {
+  .quote__grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: 48px;
     align-items: flex-start;
   }
   .quote__main {
     flex: 999 1 600px;
     min-width: 0;
-  }
-  .quote__aside {
-    flex: 1 1 320px;
-    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 28px;
+  }
+  .quote__head {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .quote__head h1 {
+    font-size: clamp(34px, 4.4vw, 50px);
+    line-height: 1.06;
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
 
   /* Success panel */
-  .card--status {
-    border-color: var(--c-border-strong);
-    padding: 24px;
+  .thanks {
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
-  .card--status[hidden] {
+  .thanks[hidden] {
     display: none;
   }
-  .card--status h2 {
-    font-size: 24px;
+  .thanks h2 {
+    font-size: 28px;
+    font-weight: 800;
   }
-  .card--status p {
-    font-size: 15px;
-    line-height: 1.55;
-    color: var(--c-ink-2);
+  .thanks p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--c-body);
   }
-  .card--status .btn {
+  .thanks .btn {
     align-self: flex-start;
   }
 
   /* Form */
   .form {
-    border-color: var(--c-border-strong);
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
   }
   .form[hidden] {
     display: none;
   }
-  .form fieldset {
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+  }
+  fieldset {
     border: 0;
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid var(--c-border);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
   }
-  .form legend {
-    display: block;
-    width: 100%;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--c-border);
-    background: var(--c-surface-alt);
+  legend {
     font-family: var(--f-head);
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 700;
-  }
-  /* legend sits outside the fieldset box flow; float trick keeps the border-bottom inside */
-  .form legend {
-    float: left;
-  }
-  .form legend + * {
-    clear: both;
+    padding: 0;
+    margin-bottom: 18px;
   }
   .form__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 18px;
   }
-  fieldset > .form__grid,
-  .form__body {
-    padding: 20px;
-  }
-  .form__body {
+  label {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-  }
-  .form label {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--c-ink-2);
-  }
-  .f {
-    height: 44px;
-    padding: 0 10px;
-    border: 1px solid var(--c-border-strong);
-    border-radius: var(--r-sm);
-    background: var(--c-surface);
-    color: var(--c-ink);
+    gap: 6px;
     font-size: 14px;
+    font-weight: 600;
   }
-  .f.mono {
-    font-family: var(--f-mono);
+  input,
+  select,
+  textarea {
+    min-height: 46px;
+    padding: 0 14px;
+    border: 1px solid var(--c-field-line);
+    border-radius: var(--r-btn);
+    background: var(--c-field);
+    color: var(--c-ink);
+    font-weight: 400;
   }
-  select.f {
-    padding: 0 8px;
+  select {
+    padding: 0 12px;
   }
-  textarea.f {
-    height: auto;
-    padding: 8px 10px;
+  textarea {
+    padding: 12px 14px;
     resize: vertical;
   }
-  .f:hover {
-    border-color: var(--c-muted);
+  input,
+  select,
+  textarea {
+    transition:
+      border-color var(--t-fast) var(--ease-out),
+      background-color var(--t-fast) var(--ease-out),
+      box-shadow var(--t-med) var(--ease-out);
   }
-  .f:focus {
+  @media (hover: hover) {
+    input:hover,
+    select:hover,
+    textarea:hover {
+      border-color: var(--c-hover-line);
+    }
+  }
+  /* Focus: field brightens to white and gets a soft forest ring */
+  input:focus,
+  select:focus,
+  textarea:focus {
     outline: none;
-    border-color: var(--c-primary);
-    box-shadow: 0 0 0 2px var(--c-primary-tint-border);
-  }
-  .help {
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--c-steel);
+    border-color: var(--c-forest);
+    background: var(--c-surface);
+    box-shadow: 0 0 0 3px rgba(34, 56, 45, 0.14);
   }
   .form__foot {
-    padding: 16px 20px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    background: var(--c-surface-alt);
-    font-size: 13px;
-    color: var(--c-steel);
-  }
-  .form__foot button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    gap: 16px;
   }
   .form__error {
-    padding: 12px 20px;
-    font-size: 13px;
-    color: #b91c1c;
-    border-top: 1px solid var(--c-border);
+    flex-basis: 100%;
+    padding: 12px 14px;
+    border-radius: var(--r-btn);
+    background: #fdecec;
+    color: #8a1c1c;
+    font-size: 15px;
+  }
+  .form__error[hidden] {
+    display: none;
+  }
+  .form__hint {
+    font-size: 14px;
+    color: var(--c-muted);
   }
 
   /* Aside */
-  .kv--split > div {
-    justify-content: space-between;
-    gap: 12px;
+  .quote__aside {
+    flex: 1 1 320px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
-  .kv--split dt {
-    font-weight: 400;
+  .talk {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--c-forest);
+    color: var(--c-on-forest);
+    border-radius: var(--r-panel);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
-  .kv--split a {
+  .talk :global(.talk__grain) {
+    width: 360px;
+    right: -170px;
+    bottom: -190px;
+    color: var(--c-forest-line);
+    z-index: -1;
+  }
+  .talk h2 {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .talk p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--c-on-forest-2);
+  }
+  .talk__phone {
+    align-self: flex-start;
+    color: var(--c-on-forest);
+    font-family: var(--f-head);
+    font-size: 26px;
+    font-weight: 700;
     text-decoration: none;
+    transition: color var(--t-fast) var(--ease-out);
   }
-  .faq details {
-    border-bottom: 1px solid var(--c-border);
-    padding: 12px 20px;
+  .talk__phone:hover {
+    color: var(--c-amber);
   }
-  .faq details:last-child {
+  .talk__meta {
+    font-size: 15px;
+    color: var(--c-on-forest-3);
+  }
+  .talk__meta a {
+    color: var(--c-on-forest);
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+  .talk__meta a:hover {
+    color: var(--c-amber);
+  }
+  .faq {
+    padding: 8px 28px;
+  }
+  .faq h2 {
+    margin: 20px 0 8px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  details {
+    border-bottom: 1px solid var(--c-line-soft);
+    padding: 16px 0;
+  }
+  details:last-child {
     border-bottom: 0;
   }
-  .faq summary {
-    font-weight: 500;
-    font-size: 14px;
-    min-height: 24px;
+  summary {
     cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    min-height: 28px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    transition: color var(--t-fast) var(--ease-out);
   }
-  .faq details[open] summary {
-    color: var(--c-primary);
+  summary::-webkit-details-marker {
+    display: none;
   }
-  .faq p {
-    margin-top: 8px;
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--c-ink-2);
+  /* Chevron that turns as the answer opens */
+  summary::after {
+    content: '';
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    margin-right: 4px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform var(--t-med) var(--ease-out);
+  }
+  details[open] summary::after {
+    transform: translateY(2px) rotate(225deg);
+  }
+  summary:hover,
+  details[open] summary {
+    color: var(--c-rust);
+  }
+  details p {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--c-body);
   }
 </style>

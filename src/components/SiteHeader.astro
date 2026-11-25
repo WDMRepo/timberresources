@@ -1,21 +1,29 @@
 ---
 import { nav, site, type NavKey } from '../data/site';
+import Logo from './Logo.astro';
 
 interface Props {
   current?: NavKey;
-  /** Hide the header CTA (used on the quote page itself). */
+  /** Hide the "Request a Quote" button (used on the quote page itself). */
   showCta?: boolean;
 }
 
 const { current, showCta = true } = Astro.props;
 ---
 
-<header class="header">
+<!--
+  Desktop (≥ 960px): one row: brand · nav links · phone · quote button.
+  Phones and small tablets: two rows:
+    1. brand on the left, compact "Get a Quote" button on the right
+    2. a full-width strip: Products · How We Work · About · Call, spread evenly
+-->
+<header class="header" data-header>
   <div class="container header__inner">
-    <a href="/" class="brand">
+    <a href="/" class="brand" aria-label={`${site.name} home`}>
+      <Logo size={32} />
       <span class="brand__name">{site.name}</span>
-      <span class="brand__tag">{site.tagline}</span>
     </a>
+
     <nav aria-label="Main" class="nav">
       {
         nav.map((item) => (
@@ -28,77 +36,299 @@ const { current, showCta = true } = Astro.props;
           </a>
         ))
       }
-      {showCta && <a href="/quote/" class="btn btn--primary btn--sm nav__cta">Request a Delivered Quote</a>}
+      <a href={site.phoneHref} class="nav__link nav__phone" aria-label={`Call ${site.phone}`}>
+        <svg class="nav__phone-icon" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path></svg>
+        <span class="nav__phone-full tabular">{site.phone}</span>
+        <span class="nav__phone-short">Call</span>
+      </a>
     </nav>
+
+    {
+      showCta && (
+        <a href="/quote/" class="btn btn--amber btn--sm header__cta">
+          <span class="cta__long">Request a Quote</span>
+          <span class="cta__short"><span class="cta__get">Get a </span>Quote</span>
+        </a>
+      )
+    }
   </div>
 </header>
 
+<script>
+  // Once the page scrolls, give the sticky header a soft shadow so it reads as
+  // floating above the content. rAF-throttled, passive listener.
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    let ticking = false;
+    const update = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
+      ticking = false;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+    update();
+  }
+</script>
+
 <style>
   .header {
-    background: var(--c-surface);
-    border-bottom: 1px solid var(--c-border);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: rgba(246, 244, 239, 0.94);
+    backdrop-filter: saturate(1.4) blur(8px);
+    -webkit-backdrop-filter: saturate(1.4) blur(8px);
+    border-bottom: 1px solid var(--c-line);
+    transition:
+      box-shadow var(--t-med) var(--ease-out),
+      background-color var(--t-med) var(--ease-out);
   }
+  .header.is-scrolled {
+    background: rgba(246, 244, 239, 0.97);
+    box-shadow: 0 10px 24px -18px rgba(27, 36, 32, 0.45);
+  }
+
+  /* ---------- Desktop: one row ---------- */
   .header__inner {
     padding-top: 14px;
     padding-bottom: 14px;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 24px;
   }
   .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    flex-shrink: 0;
     text-decoration: none;
     color: var(--c-ink);
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
   }
   .brand:hover {
     color: var(--c-ink);
   }
+  .brand :global(svg) {
+    flex-shrink: 0;
+    transition: transform var(--t-med) var(--ease-out);
+  }
+  @media (hover: hover) {
+    .brand:hover :global(svg) {
+      transform: rotate(-4deg);
+    }
+  }
   .brand__name {
     font-family: var(--f-head);
-    font-weight: 700;
-    font-size: 22px;
-    letter-spacing: 0.01em;
-  }
-  .brand__tag {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--c-steel);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
   }
   .nav {
+    margin-left: auto;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 4px 8px;
-    font-size: 14px;
+    gap: 26px;
+    font-size: 15px;
     font-weight: 500;
   }
   .nav__link {
-    color: var(--c-ink-2);
-    text-decoration: none;
-    padding: 12px;
-  }
-  .nav__link:hover {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 44px;
     color: var(--c-ink);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--t-fast) var(--ease-out);
+  }
+  /* Underline draws in from the left on hover/focus; shown on the current page */
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--t-med) var(--ease-out);
+  }
+  .nav__link {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav__link:focus-visible {
+    color: var(--c-rust);
+  }
+  .nav__link:focus-visible::after,
+  .nav__link.is-current::after {
+    transform: scaleX(1);
+  }
+  /* Hover only where a pointer can hover, so taps on phones don't leave links stuck "hovered" */
+  @media (hover: hover) {
+    .nav__link:hover {
+      color: var(--c-rust);
+    }
+    .nav__link:hover::after {
+      transform: scaleX(1);
+    }
+  }
+  /* Touch feedback: a brief colour change while the finger is down */
+  .nav__link:active {
+    color: var(--c-rust);
   }
   .nav__link.is-current {
-    color: var(--c-primary);
-    font-weight: 700;
+    color: var(--c-rust);
+    font-weight: 600;
   }
-  .nav__cta {
-    margin-left: 8px;
+  .nav__phone {
+    font-weight: 600;
   }
-  @media (max-width: 640px) {
-    .nav__link {
-      padding: 12px 8px;
+  .nav__phone::after {
+    left: 22px; /* underline the number, not the icon */
+  }
+  .nav__phone-icon {
+    color: var(--c-rust);
+    flex-shrink: 0;
+  }
+  .nav__phone-short,
+  .cta__short {
+    display: none;
+  }
+  .header__cta {
+    flex-shrink: 0;
+  }
+
+  /* ---------- Phones and small tablets: two rows ---------- */
+  @media (max-width: 959px) {
+    .header__inner {
+      flex-wrap: wrap;
+      gap: 0 12px;
+      padding-top: 10px;
+      padding-bottom: 0;
     }
-    .nav__cta {
-      margin-left: 0;
+    .brand {
+      min-height: 48px;
+      gap: 9px;
+    }
+    .header__cta {
+      margin-left: auto;
+      min-height: 40px;
+      padding: 0 16px;
+      font-size: 14px;
+    }
+    /*
+     * Row 2: a tab strip. Page links sit left with an even 14px rhythm; "Call"
+     * is pushed to the far right as a utility. The divider above it runs
+     * edge to edge like the header's bottom border, and the active marker
+     * sits ON that bottom border, like a tab.
+     */
+    .nav {
+      position: relative;
+      order: 3;
+      flex-basis: calc(100% + 2 * var(--gutter)); /* bleed to the screen edges */
+      margin: 10px calc(-1 * var(--gutter)) 0;
+      padding: 0 calc(var(--gutter) - 8px); /* links carry 8px side padding */
+      justify-content: flex-start;
+      gap: 0 6px;
+      font-size: 14.5px;
+      /* At very large text sizes, scroll sideways instead of spilling off-screen */
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+    .nav::-webkit-scrollbar {
+      display: none;
+    }
+    .nav::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--c-line);
+    }
+    .nav__link {
+      min-height: 46px;
+      min-width: 44px;
+      justify-content: center;
+      padding: 0 8px;
+    }
+    .nav__link::after {
+      left: 8px;
+      right: 8px;
+      bottom: 0;
+      height: 2px;
+      border-radius: 2px 2px 0 0;
+    }
+    .nav__phone {
+      margin-left: auto;
+    }
+    .nav__phone::after {
+      left: 30px; /* under "Call", not the icon */
+    }
+    /* The strip scrolls (see above), which would clip an outside focus ring, so draw it inside */
+    .nav__link:focus-visible {
+      outline-offset: -3px;
+    }
+  }
+  @media (max-width: 559px) {
+    .brand__name {
+      font-size: 17px;
+    }
+    .header__cta {
+      padding: 0 14px;
+    }
+    .brand :global(svg) {
+      width: 28px;
+      height: 28px;
+    }
+    .nav__phone-full,
+    .cta__long {
+      display: none;
+    }
+    .nav__phone-short,
+    .cta__short {
+      display: inline;
+    }
+  }
+  /* Very narrow phones: keep everything on its row */
+  @media (max-width: 359px) {
+    .brand {
+      min-width: 0;
+      flex-shrink: 1;
+    }
+    .brand__name {
+      font-size: 16px;
+      white-space: normal; /* at 200% browser zoom the name may wrap rather than spill off-screen */
+      line-height: 1.1;
+    }
+    .header__cta {
+      padding: 0 14px;
+    }
+    .cta__get {
+      display: none; /* button just says "Quote" on the narrowest phones */
+    }
+    .nav {
+      font-size: 13.5px;
+    }
+  }
+
+  /* The wrapped header is taller, so only stick it where there's room. */
+  @media (max-width: 719px) {
+    .header {
+      position: static;
     }
   }
 </style>
