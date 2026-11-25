@@ -12,7 +12,7 @@ Photos are in `images/`. Fonts load from Google Fonts (Archivo, Inter). There's 
 
 ## Before launch
 - Replace the `[EMAIL ADDRESS]` and `[BUSINESS HOURS]` placeholders.
-- Quote form: in `quote.html`, replace `YOUR_FORM_ID` in the form's `action` with your Formspree form ID (`https://formspree.io/f/xxxxxxx`). Submissions go to the email address set on that Formspree form.
+- Quote form: posts to Formspree (`https://formspree.io/f/mwloarkq`). Submissions go to the email address set on that Formspree form. Send one test submission to confirm the form before launch.
   - On a free Formspree plan, file attachments are rejected. Either upgrade the plan or remove the "attach your material list" field.
   - In Formspree, add timberresources.net to the form's allowed domains.
 - Replace the monogram portraits with real headshots of Tim, Sam and Chris.
