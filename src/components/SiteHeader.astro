@@ -1,0 +1,104 @@
+---
+import { nav, site, type NavKey } from '../data/site';
+
+interface Props {
+  current?: NavKey;
+  /** Hide the header CTA (used on the quote page itself). */
+  showCta?: boolean;
+}
+
+const { current, showCta = true } = Astro.props;
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="brand">
+      <span class="brand__name">{site.name}</span>
+      <span class="brand__tag">{site.tagline}</span>
+    </a>
+    <nav aria-label="Main" class="nav">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={['nav__link', { 'is-current': item.key === current }]}
+            aria-current={item.key === current ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      {showCta && <a href="/quote/" class="btn btn--primary btn--sm nav__cta">Request a Delivered Quote</a>}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    background: var(--c-surface);
+    border-bottom: 1px solid var(--c-border);
+  }
+  .header__inner {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .brand {
+    text-decoration: none;
+    color: var(--c-ink);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .brand:hover {
+    color: var(--c-ink);
+  }
+  .brand__name {
+    font-family: var(--f-head);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.01em;
+  }
+  .brand__tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-steel);
+  }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .nav__link {
+    color: var(--c-ink-2);
+    text-decoration: none;
+    padding: 12px;
+  }
+  .nav__link:hover {
+    color: var(--c-ink);
+  }
+  .nav__link.is-current {
+    color: var(--c-primary);
+    font-weight: 700;
+  }
+  .nav__cta {
+    margin-left: 8px;
+  }
+  @media (max-width: 640px) {
+    .nav__link {
+      padding: 12px 8px;
+    }
+    .nav__cta {
+      margin-left: 0;
+    }
+  }
+</style>

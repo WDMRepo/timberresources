@@ -1,0 +1,85 @@
+---
+import '../styles/global.css';
+import TopBar from '../components/TopBar.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { site, type NavKey } from '../data/site';
+import defaultShareImage from '../assets/images/hero-lumber-stack.jpg';
+
+interface Props {
+  title: string;
+  description: string;
+  current?: NavKey;
+  showHeaderCta?: boolean;
+  footer?: 'full' | 'compact';
+  /** Image used when the page is shared (Open Graph / social cards). */
+  shareImage?: ImageMetadata;
+  /** Structured data (schema.org) for this page. Gets the share image if it has none. */
+  jsonLd?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description,
+  current,
+  showHeaderCta = true,
+  footer = 'compact',
+  shareImage = defaultShareImage,
+  jsonLd,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = await getImage({ src: shareImage, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 80 });
+const ogUrl = new URL(og.src, Astro.site);
+const structuredData = jsonLd ? JSON.stringify({ image: ogUrl.href, ...jsonLd }) : null;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Google Tag Manager (standard snippet). is:inline keeps Astro from bundling or moving it. -->
+    <script is:inline>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-WN8CQMQS');
+    </script>
+    <!-- End Google Tag Manager -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {structuredData && <script is:inline type="application/ld+json" set:html={structuredData} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Roboto:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WN8CQMQS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <TopBar />
+    <SiteHeader current={current} showCta={showHeaderCta} />
+    <main>
+      <slot />
+    </main>
+    <SiteFooter variant={footer} />
+  </body>
+</html>

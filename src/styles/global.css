@@ -1,0 +1,348 @@
+/*
+ * LedgerCraft design tokens + shared primitives for the Timber Resources site.
+ * Flat surfaces, crisp borders, small radii, mono numerals.
+ * Colors use the Draft 1 palette: forest green, amber, rust and warm cream.
+ */
+:root {
+  /* Color: text accents (links, overlines, chip text) */
+  --c-primary: #7a4510;
+  --c-primary-hover: #5a320b;
+  --c-primary-tint: rgba(224, 162, 78, 0.16);
+  --c-primary-tint-border: rgba(224, 162, 78, 0.45);
+  /* Color: amber for primary buttons and focus rings */
+  --c-accent: #e0a24e;
+  --c-accent-hover: #ebb36a;
+  --c-on-accent: #1b2420;
+  /* Color: forest green for the call-to-action band */
+  --c-brand: #22382d;
+  --c-brand-line: #8fa597;
+  --c-primary-on: #b9c8be;
+  --c-ink: #1b2420;
+  --c-ink-2: #4a544e;
+  --c-steel: #646d67;
+  --c-muted: #9fb3a6;
+  --c-neutral: #b9ae97;
+  --c-border: #e2ded4;
+  --c-border-strong: #cfc7b6;
+  --c-bg: #f6f4ef;
+  --c-surface: #ffffff;
+  --c-surface-alt: #faf8f3;
+  --c-surface-sunk: #ede9e0;
+  --c-dark: #1b2420;
+  --c-dark-line: #2f3a34;
+  --c-dark-text: #b9c8be;
+
+  /* Type */
+  --f-head: 'Roboto Slab', Georgia, serif;
+  --f-body: Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+
+  /* Radius */
+  --r-sm: 2px;
+  --r-md: 4px;
+
+  /* Elevation */
+  --shadow-md: 0 2px 6px rgba(15, 23, 42, 0.06);
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--f-body);
+  color: var(--c-ink);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--c-primary);
+}
+a:hover {
+  color: var(--c-primary-hover);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--f-head);
+  font-weight: 700;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Layout ---------- */
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.mono {
+  font-family: var(--f-mono);
+}
+
+.overline {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-steel);
+}
+.overline--primary {
+  color: var(--c-primary);
+}
+
+.lead {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--c-ink-2);
+}
+
+.muted {
+  color: var(--c-ink-2);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn--sm {
+  font-size: 14px;
+  padding: 0 18px;
+}
+
+.btn--primary {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+.btn--primary:hover {
+  background: var(--c-accent-hover);
+  color: var(--c-on-accent);
+}
+
+.btn--secondary {
+  background: var(--c-surface-sunk);
+  color: var(--c-ink-2);
+  border-color: var(--c-border-strong);
+}
+.btn--secondary:hover {
+  background: var(--c-border);
+  color: var(--c-ink-2);
+}
+
+.btn--inverse {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+.btn--inverse:hover {
+  background: var(--c-accent-hover);
+  color: var(--c-on-accent);
+}
+
+.btn--outline-inverse {
+  border-color: var(--c-brand-line);
+  color: #fff;
+}
+.btn--outline-inverse:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* ---------- Chips ---------- */
+
+.chip {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 2px 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--c-border);
+  background: var(--c-surface-sunk);
+  color: var(--c-ink-2);
+}
+.chip--status {
+  color: var(--c-primary);
+  background: var(--c-primary-tint);
+  border-color: var(--c-primary-tint-border);
+}
+
+/* ---------- Cards / panels ---------- */
+
+.card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+}
+.card--elevated {
+  border-color: var(--c-border-strong);
+  box-shadow: var(--shadow-md);
+}
+.card__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--c-border);
+  font-family: var(--f-head);
+  font-weight: 700;
+  font-size: 17px;
+}
+
+/* Cells laid out in a bordered grid (stats, steps, terms) */
+.cell-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--cell-min, 240px), 1fr));
+}
+.cell-grid > * {
+  border-right: 1px solid var(--c-border);
+}
+.cell-grid > :last-child {
+  border-right: 0;
+}
+
+/* Key/value definition rows */
+.kv {
+  margin: 0;
+  font-size: 14px;
+}
+.kv > div {
+  display: flex;
+  gap: 16px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--c-border);
+}
+.kv > div:nth-child(even) {
+  background: var(--c-surface-alt);
+}
+.kv > div:last-child {
+  border-bottom: 0;
+}
+.kv dt {
+  color: var(--c-steel);
+  font-weight: 500;
+}
+.kv dd {
+  margin: 0;
+}
+
+/* ---------- Section ---------- */
+
+.section {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+.section--surface {
+  background: var(--c-surface);
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 720px;
+}
+.section-head h2 {
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap, 24px);
+}
+
+/* Page intro band (Products, Quote) */
+.page-intro {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+}
+.page-intro .container {
+  padding-top: 48px;
+  padding-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.page-intro h1 {
+  font-size: 40px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  max-width: 820px;
+}
+.page-intro .lead {
+  max-width: 700px;
+}
+
+@media (max-width: 640px) {
+  .page-intro h1 {
+    font-size: 32px;
+  }
+  .section-head h2 {
+    font-size: 26px;
+  }
+  .cell-grid > * {
+    border-right: 0;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .cell-grid > :last-child {
+    border-bottom: 0;
+  }
+}

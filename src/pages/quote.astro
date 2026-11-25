@@ -1,0 +1,403 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+const faqs = [
+  [
+    'Do you sell partial loads?',
+    'Full truckloads are our focus. Partial loads may be possible depending on product, destination and freight.',
+  ],
+  [
+    'How do credit and terms work?',
+    'Our receivables are credit-insured. We request a limit through our insurer; once approved, we extend that line to you. Standard terms are 1% 10 days on the lumber portion of the invoice (not freight).',
+  ],
+  [
+    'Where do you deliver?',
+    'Our core market is the Southeast, with customers in Texas, Kansas and other states. Heavy green products suit Southern destinations.',
+  ],
+  [
+    'Who arranges trucking?',
+    'Some mills ship directly; otherwise we coordinate through our trucking contacts. Freight is included in your delivered price.',
+  ],
+  ['Can you handle recurring orders?', 'Yes. Availability and pricing are checked for each load.'],
+  [
+    'What if there’s a problem with a load?',
+    'Call us. We’ll review it with you and the parties involved and stay with it until it’s resolved.',
+  ],
+];
+---
+
+<BaseLayout
+  title="Request a Delivered Lumber Quote | Timber Resources"
+  description="Request a delivered Southern Yellow Pine lumber quote. Quotes are often ready the same day; no purchase order needed."
+  showHeaderCta={false}
+>
+  <section class="page-intro">
+    <div class="container" style="padding-top: 40px; padding-bottom: 40px; gap: 10px">
+      <span class="overline overline--primary">Request a quote</span>
+      <h1>Get a delivered lumber quote.</h1>
+      <p class="lead">
+        Quotes are often ready the same day; allow two to three days when mills take longer to respond. No purchase order
+        needed.
+      </p>
+    </div>
+  </section>
+
+  <section class="quote">
+    <div class="container quote__layout">
+      <div class="quote__main">
+        <div class="card card--status" role="status" data-quote-success hidden>
+          <span class="chip chip--status">Received</span>
+          <h2>Thank you for contacting Timber Resources.</h2>
+          <p>
+            Our team will review the details and contact you with any questions or a quote. Quotes are often available the
+            same day; allow two to three days when supplier responses take longer.
+          </p>
+          <button type="button" class="btn btn--secondary btn--sm" data-quote-reset>Send another request</button>
+        </div>
+
+        <form
+          class="card form"
+          aria-label="Quote request"
+          method="post"
+          action={site.quoteFormEndpoint || undefined}
+          data-endpoint={site.quoteFormEndpoint}
+          data-quote-form
+        >
+          <fieldset>
+            <legend>1 · Company &amp; delivery</legend>
+            <div class="form__grid">
+              <label>Company name *<input class="f" type="text" name="company" autocomplete="organization" required /></label>
+              <label>Contact name *<input class="f" type="text" name="contact" autocomplete="name" required /></label>
+              <label>Email *<input class="f" type="email" name="email" autocomplete="email" required /></label>
+              <label>Phone *<input class="f mono" type="tel" name="phone" autocomplete="tel" required /></label>
+              <label>
+                Delivery city, state &amp; ZIP *
+                <input class="f" type="text" name="delivery_location" required aria-describedby="loc-help" />
+                <span class="help" id="loc-help">Used to price freight to your door.</span>
+              </label>
+              <label>Requested delivery timing<input class="f" type="text" name="delivery_timing" placeholder="Date, or “flexible”" /></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>2 · Material requirements</legend>
+            <div class="form__body">
+              <div class="form__grid">
+                <label>
+                  Buying for
+                  <select class="f" name="buying_for">
+                    <option>Pallet / crate / packaging</option>
+                    <option>Truss manufacturing</option>
+                    <option>Dunnage</option>
+                    <option>Playground manufacturing</option>
+                    <option>Landscape timbers / reman</option>
+                    <option>Other</option>
+                  </select>
+                </label>
+                <label>Dimensions &amp; lengths<input class="f mono" type="text" name="dimensions" placeholder="e.g. 1x6 × 40″" /></label>
+                <label>Grade<input class="f" type="text" name="grade" placeholder="e.g. No. 3" /></label>
+                <label>Quantity &amp; unit<input class="f" type="text" name="quantity" placeholder="e.g. 2 truckloads / month" /></label>
+                <label>
+                  Treatment
+                  <select class="f" name="treatment">
+                    <option>None / green</option>
+                    <option>Kiln dried</option>
+                    <option>Pressure treated</option>
+                    <option>Heat treated (HT)</option>
+                    <option>Not sure</option>
+                  </select>
+                </label>
+                <label>
+                  Alternatives acceptable?
+                  <select class="f" name="alternatives">
+                    <option>Discuss with me first</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                Material list, notes or special handling
+                <textarea class="f" name="notes" rows="5" aria-describedby="notes-help"></textarea>
+                <span class="help" id="notes-help">Have a material list? Paste it here instead of filling in the fields above.</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="form__foot">
+            <span>* Required</span>
+            <button type="submit" class="btn btn--primary">Submit quote request</button>
+          </div>
+          <p class="form__error" role="alert" data-quote-error hidden>
+            Something went wrong sending your request. Please try again or call {site.phone}.
+          </p>
+        </form>
+      </div>
+
+      <aside class="quote__aside">
+        <div class="card">
+          <div class="card__head">Prefer a conversation?</div>
+          <dl class="kv kv--split">
+            <div><dt>Phone</dt><dd class="mono"><a href={site.phoneHref}>{site.phone}</a></dd></div>
+            <div><dt>Fax</dt><dd class="mono">{site.fax}</dd></div>
+            <div><dt>Email</dt><dd>{site.email}</dd></div>
+            <div><dt>Hours</dt><dd>{site.hours}</dd></div>
+          </dl>
+        </div>
+
+        <div class="card faq">
+          <div class="card__head">Before your first order</div>
+          {
+            faqs.map(([q, a]) => (
+              <details>
+                <summary>{q}</summary>
+                <p>{a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-quote-form]');
+  const success = document.querySelector<HTMLElement>('[data-quote-success]');
+  const reset = document.querySelector<HTMLButtonElement>('[data-quote-reset]');
+  const error = document.querySelector<HTMLElement>('[data-quote-error]');
+
+  if (form && success && reset && error) {
+    const showSuccess = () => {
+      form.hidden = true;
+      success.hidden = false;
+      success.focus();
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      error.hidden = true;
+      const endpoint = form.dataset.endpoint;
+
+      if (!endpoint) {
+        // No endpoint configured yet (see src/data/site.ts): nothing is sent.
+        console.warn('Quote form: no endpoint configured, submission not sent.');
+        showSuccess();
+        return;
+      }
+
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (button) button.disabled = true;
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        showSuccess();
+      } catch {
+        error.hidden = false;
+      } finally {
+        if (button) button.disabled = false;
+      }
+    });
+
+    reset.addEventListener('click', () => {
+      form.reset();
+      success.hidden = true;
+      form.hidden = false;
+      form.querySelector<HTMLInputElement>('input')?.focus();
+    });
+
+    success.tabIndex = -1;
+  }
+</script>
+
+<style>
+  .quote {
+    padding: 40px 0 64px;
+  }
+  .quote__layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  .quote__main {
+    flex: 999 1 600px;
+    min-width: 0;
+  }
+  .quote__aside {
+    flex: 1 1 320px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Success panel */
+  .card--status {
+    border-color: var(--c-border-strong);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card--status[hidden] {
+    display: none;
+  }
+  .card--status h2 {
+    font-size: 24px;
+  }
+  .card--status p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--c-ink-2);
+  }
+  .card--status .btn {
+    align-self: flex-start;
+  }
+
+  /* Form */
+  .form {
+    border-color: var(--c-border-strong);
+  }
+  .form[hidden] {
+    display: none;
+  }
+  .form fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .form legend {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--c-border);
+    background: var(--c-surface-alt);
+    font-family: var(--f-head);
+    font-size: 17px;
+    font-weight: 700;
+  }
+  /* legend sits outside the fieldset box flow; float trick keeps the border-bottom inside */
+  .form legend {
+    float: left;
+  }
+  .form legend + * {
+    clear: both;
+  }
+  .form__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    gap: 16px;
+  }
+  fieldset > .form__grid,
+  .form__body {
+    padding: 20px;
+  }
+  .form__body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .form label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--c-ink-2);
+  }
+  .f {
+    height: 44px;
+    padding: 0 10px;
+    border: 1px solid var(--c-border-strong);
+    border-radius: var(--r-sm);
+    background: var(--c-surface);
+    color: var(--c-ink);
+    font-size: 14px;
+  }
+  .f.mono {
+    font-family: var(--f-mono);
+  }
+  select.f {
+    padding: 0 8px;
+  }
+  textarea.f {
+    height: auto;
+    padding: 8px 10px;
+    resize: vertical;
+  }
+  .f:hover {
+    border-color: var(--c-muted);
+  }
+  .f:focus {
+    outline: none;
+    border-color: var(--c-primary);
+    box-shadow: 0 0 0 2px var(--c-primary-tint-border);
+  }
+  .help {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--c-steel);
+  }
+  .form__foot {
+    padding: 16px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--c-surface-alt);
+    font-size: 13px;
+    color: var(--c-steel);
+  }
+  .form__foot button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .form__error {
+    padding: 12px 20px;
+    font-size: 13px;
+    color: #b91c1c;
+    border-top: 1px solid var(--c-border);
+  }
+
+  /* Aside */
+  .kv--split > div {
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .kv--split dt {
+    font-weight: 400;
+  }
+  .kv--split a {
+    text-decoration: none;
+  }
+  .faq details {
+    border-bottom: 1px solid var(--c-border);
+    padding: 12px 20px;
+  }
+  .faq details:last-child {
+    border-bottom: 0;
+  }
+  .faq summary {
+    font-weight: 500;
+    font-size: 14px;
+    min-height: 24px;
+    cursor: pointer;
+  }
+  .faq details[open] summary {
+    color: var(--c-primary);
+  }
+  .faq p {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--c-ink-2);
+  }
+</style>
